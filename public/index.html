@@ -7,7 +7,7 @@
     <meta name="theme-color" content="#000000" />
     <meta
       name="description"
-      content="Web site created using create-react-app"
+      content="UniCore Vault"
     />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!--
@@ -24,20 +24,149 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
+    <title>uVault.finance</title>
+
+    <style>
+      body, html {
+        height: 100%;
+        margin: 0;
+        background-color: rgb(7, 24, 52);
+      }
+
+      .app {
+        height: 100%;
+        width: 100%;
+        z-index: 10;
+        position: absolute;
+      }
+
+      .root {
+        height: 100%;
+        width: 100%;
+      }
+
+      .reactor-bg {
+        height: 100%;
+        overflow: hidden;
+        background-color: rgb(7, 24, 52);
+      }
+
+      .reactor-holder {
+        height: 100%;
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+
+      .reactor-ring-sm {
+        z-index: 1;
+        width: 100%;
+      }
+
+      .reactor-ring-md {
+        z-index: 2;
+        width: 100%;
+        animation-name: spin;
+        animation-duration: 15000ms;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+      }
+
+      .reactor-ring-lg {
+        z-index: 3;
+        width: 100%;
+        animation-name: spin;
+        animation-duration: 30000ms;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+        animation-direction: reverse;
+      }
+
+      .reactor-core {
+        z-index: 4;
+        width: 100%;
+        animation-name: spin;
+        animation-duration: 20000ms;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+      }
+
+      @-moz-keyframes spin {
+        from { -moz-transform: rotate(0deg); }
+        to { -moz-transform: rotate(360deg); }
+      }
+      @-webkit-keyframes spin {
+        from { -webkit-transform: rotate(0deg); }
+        to { -webkit-transform: rotate(360deg); }
+      }
+      @keyframes spin {
+        from {transform:rotate(0deg);}
+        to {transform:rotate(360deg);}
+      }
+
+      @media screen and (orientation:portrait) {
+        .reactor-ring-sm {
+          height: 100%;
+          width: auto;
+        }
+        .reactor-ring-md {
+          height: 100%;
+          width: auto;
+        }
+        .reactor-ring-lg {
+          height: 100%;
+          width: auto;
+        }
+        .reactor-core {
+          height: 100%;
+          width: auto;
+        }
+        .reactor-holder {
+          height: 100%;
+          width: 100%;
+        }
+      }
+    </style>
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+    <div class="reactor-bg">
+      <div class="reactor-holder">
+        <img 
+          src="reactor-ring-sm.png"
+          class="reactor-ring-sm"
+          alt="..."
+        />
+      </div>
+      <div class="reactor-holder">
+        <img 
+          src="reactor-ring-md.png"
+          class="reactor-ring-md"
+          alt="..."
+        />
+      </div>
+      <div class="reactor-holder">
+        <img 
+          src="reactor-ring-lg.png"
+          class="reactor-ring-lg"
+          alt="..."
+        />
+      </div>
+      <div class="reactor-holder">
+        <img 
+          src="reactor-core.png"
+          class="reactor-core"
+          alt="..."
+        />
+      </div>
+      
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
+      <div class="app">
+        <noscript>You need to enable JavaScript to run this app.</noscript>
+        <div id="root" class="root"></div>
+      </div>
+      
+    </div>
   </body>
 </html>
