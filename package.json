@@ -9,6 +9,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "bignumber.js": "^9.0.1",
+    "ethers": "^5.0.17",
     "fontsource-orbitron": "^3.0.3",
     "fontsource-roboto": "^3.0.3",
     "react": "^16.13.1",
