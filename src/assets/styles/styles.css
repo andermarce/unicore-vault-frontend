@@ -1,0 +1,83 @@
+.reactor-bg {
+  height: 100%;
+  overflow: hidden;
+  background-color: rgb(7, 24, 52);
+}
+
+.reactor-holder {
+  height: 100%;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.reactor-ring-sm {
+  z-index: 1;
+  width: 100%;
+}
+
+.reactor-ring-md {
+  z-index: 2;
+  width: 100%;
+  animation-name: spin;
+  animation-duration: 15000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+.reactor-ring-lg {
+  z-index: 3;
+  width: 100%;
+  animation-name: spin;
+  animation-duration: 30000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-direction: reverse;
+}
+
+.reactor-core {
+  z-index: 4;
+  width: 100%;
+  animation-name: spin;
+  animation-duration: 20000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@-moz-keyframes spin {
+  from { -moz-transform: rotate(0deg); }
+  to { -moz-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+  from { -webkit-transform: rotate(0deg); }
+  to { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+  from {transform:rotate(0deg);}
+  to {transform:rotate(360deg);}
+}
+
+@media screen and (orientation:portrait) {
+  .reactor-ring-sm {
+    height: 100%;
+    width: auto;
+  }
+  .reactor-ring-md {
+    height: 100%;
+    width: auto;
+  }
+  .reactor-ring-lg {
+    height: 100%;
+    width: auto;
+  }
+  .reactor-core {
+    height: 100%;
+    width: auto;
+  }
+  .reactor-holder {
+    height: 100%;
+    width: 100%;
+  }
+}

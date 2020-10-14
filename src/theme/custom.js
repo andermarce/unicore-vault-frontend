@@ -4,6 +4,9 @@ import yellow from '@material-ui/core/colors/yellow';
 
 
 const theme = createMuiTheme({
+  background: {
+    default: "#071834"
+  },
   palette: {
     type: 'dark',
     primary: {

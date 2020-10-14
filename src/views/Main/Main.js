@@ -1,48 +1,41 @@
 import React from 'react'
-import { Box, Button, Container, Fade, Typography } from '@material-ui/core'
+import { Box, Container, Fade, Paper, Tab, Tabs, Card, CardHeader, CardContent, TextField, FormGroup,Button,ButtonGroup, FormControlLabel, Checkbox, Typography } from '@material-ui/core'
 import { useWallet } from 'use-wallet'
-import { ConnectButton } from './ConnectButton'
-import { DisplayBox } from 'components'
+import { FlexCenter } from 'components';
+import { CheckBox } from '@material-ui/icons';
+import { TabBar } from 'components/TabBar';
 
 export const Main = () => {
   const { account } = useWallet();
   
-
   return (
-    <DisplayBox>
-      <Box
-        position="absolute"
-        alignSelf="flex-start"
-        justifySelf="flex-end"
-      >
-        <ConnectButton />
-      </Box>
-      <Container>
-        {!!account ? (
-          <Fade in={!!account}>
-            <p style={{
-              fontSize: 32
-            }}>
-              SUCCESS
-            </p>
-          </Fade>
-        ) : (
-          <Fade in={!account}>
-            <p style={{
-              fontSize: 32
-            }}>
+    <FlexCenter height="100%" width="100%">
+      <Box position="absolute">
+        <Fade in={!account}
+          timeout={{
+            appear: 5000,
+            enter: 5000,
+            exit: 1000
+          }}
+        >
+          <p style={{
+            fontSize: 32
+          }}>
             AWAITING LAUNCH INSTRUCTIONS
           </p>
-          </Fade>
-        )}
-        
-      </Container>
-      <Box
-        position="absolute"
-        alignSelf="flex-end"
-      >
-        <img width="200px" src={require('assets/img/unicore-logo.png')} />
+        </Fade>
       </Box>
-    </DisplayBox>
+      <Box>
+        <Fade in={!!account} timeout={3000}>
+          <Box flexDirection="column">
+            <FlexCenter flexDirection="column">
+              <img src={require('assets/img/unicore-icon.png')} height="100px" />
+              <Typography variant="h4">Welcome to UniCore</Typography>
+              <Typography variant="subtitle1">Constant Liquidity Provider Protocol</Typography>
+            </FlexCenter>
+          </Box>
+        </Fade>
+      </Box>
+    </FlexCenter>
   )
 }

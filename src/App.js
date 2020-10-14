@@ -7,7 +7,7 @@ import theme from './theme';
 import NetworkProvider from 'contexts/Network';
 import ModalsProvider from 'contexts/Modals';
 import { useNetwork } from 'hooks/useNetwork'
-import { Main } from 'views/Main';
+import { Routes } from './Routes'
 
 // only load necessary font weights
 // https://material-ui.com/components/typography/#general
@@ -21,6 +21,8 @@ import "fontsource-orbitron/400.css";
 import "fontsource-orbitron/500.css";
 import "fontsource-orbitron/600.css";
 import "fontsource-orbitron/800.css";
+import "assets/styles/styles.css"
+import { ReactorCore } from 'components/ReactorCore/ReactorCore';
 
 const WalletApp = () => {
   const { network } = useNetwork();
@@ -34,15 +36,11 @@ const WalletApp = () => {
         : undefined
       }
     >
-      <ModalsProvider>
-        <Router>
-          <Switch>
-            <Route path="/">
-              <Main />
-            </Route>
-          </Switch>
-        </Router>
-      </ModalsProvider>
+      <ReactorCore>
+        <ModalsProvider>
+          <Routes />
+        </ModalsProvider>
+      </ReactorCore>
     </UseWalletProvider>
   )
 }
@@ -59,14 +57,13 @@ export const App = () => {
               <WalletApp />
             </NetworkProvider>
           </Route>
-          <Route exact path="/">
+          <Route path="/">
             <NetworkProvider network={1}>
               <WalletApp />
             </NetworkProvider>
           </Route>
         </Switch>
       </Router>
-      <div/>
     </ThemeProvider>
   )
 }

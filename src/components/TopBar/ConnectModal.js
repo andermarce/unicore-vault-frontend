@@ -36,7 +36,7 @@ export const ConnectModal = ({ onDismiss }) => {
             color="primary"
             fullWidth
           >
-            TrustWallet
+            WalletConnect
           </Button>
         </Box>
       </DialogContent>
