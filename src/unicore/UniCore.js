@@ -1,6 +1,7 @@
 import Web3 from 'web3'
-import { Addresses } from './lib/addresses'
-import { Contracts } from './lib/contracts'
+import BigNumber from 'bignumber.js'
+import Addresses from './lib/addresses'
+import Contracts from './lib/contracts'
 
 export class UniCore {
   
@@ -14,12 +15,9 @@ export class UniCore {
     this.contracts = new Contracts(provider, networkId, this.web3, options)
 
     this.uniCoreAddress = Addresses[networkId].uniCore
+    this.uniCoreWrappedAddress = Addresses[networkId].uniCoreWrapped
     this.uniCoreVaultAddress = Addresses[networkId].uniCoreVault
     this.wethAddress = Addresses[networkId].weth
-  }
-
-  addAccount(address, number) {
-    this.accounts.push(new Account(this.contracts, address, number))
   }
 
   setProvider(provider, networkId) {
@@ -35,6 +33,10 @@ export class UniCore {
 
   getDefaultAccount() {
     return this.web3.eth.defaultAccount
+  }
+
+  toBigN(a) {
+    return BigNumber(a)
   }
   
 }

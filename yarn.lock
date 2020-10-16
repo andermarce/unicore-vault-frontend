@@ -7033,6 +7033,11 @@ follow-redirects@^1.0.0:
   dependencies:
     debug "^3.0.0"
 
+fontsource-montserrat@^3.0.9:
+  version "3.0.9"
+  resolved "https://registry.yarnpkg.com/fontsource-montserrat/-/fontsource-montserrat-3.0.9.tgz#ff614725c420839c4aefbca6f2b49c6224050991"
+  integrity sha512-kSE4GwWoEKJlIp0UyuoYtBvjKv5kwOTK7EvCwdQ7ukvKvgIK1LR5+GpZC5c/juonasNtFTKav67Zd7/C7m+a5w==
+
 fontsource-orbitron@^3.0.3:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/fontsource-orbitron/-/fontsource-orbitron-3.0.3.tgz#79f31d5174c8637fee9a939cd11db35affd4e0a6"

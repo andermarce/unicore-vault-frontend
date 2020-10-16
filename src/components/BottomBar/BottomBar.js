@@ -1,6 +1,6 @@
 import React from 'react'
 import { BottomBarLink } from './BottomBarLink'
-import { FlexCenter } from '../FlexCenter'
+import { FlexCenter } from '../FlexCenter/FlexCenter'
 
 export const BottomBar = () => {
   return (
@@ -10,10 +10,10 @@ export const BottomBar = () => {
     >
       <img width="200px" src={require('assets/img/unicore-brand.png')} />
       <FlexCenter>
-        <BottomBarLink url="https://github.com">
+        <BottomBarLink url="https://github.com/unicore-vault">
           GitHub
         </BottomBarLink>
-        <BottomBarLink url="https://medium.com">
+        <BottomBarLink url="https://medium.com/@unicore">
           Medium
         </BottomBarLink>
         <BottomBarLink url="https://discord.com">

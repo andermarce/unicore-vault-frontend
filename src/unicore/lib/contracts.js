@@ -1,22 +1,22 @@
-import BigNumber from 'bignumber.js/bignumber'
 import ERC20 from '../abi/IERC20.json'
-import UniCore from '../abi/masterchef.json'
-import UniCoreVault from '../abi/sushi.json'
+import UniCore from '../abi/UniCore_Token.json'
+import UniCoreWrapped from '../abi/wUNIV2.json'
+import UniCoreVault from '../abi/UniCore_Vault.json'
 import IWETH from '../abi/IWETH.json'
 import Addresses from './addresses'
 
-export class Contracts {
+class Contracts {
   constructor(provider, networkId, web3) {
     this.web3 = web3
 
     this.uniCore = new this.web3.eth.Contract(UniCore.abi)
+    this.uniCoreWrapped = new this.web3.eth.Contract(UniCoreWrapped.abi)
     this.uniCoreVault = new this.web3.eth.Contract(UniCoreVault.abi)
     this.weth = new this.web3.eth.Contract(IWETH.abi)
 
     this.vaults = Addresses[networkId].vaults.map((vault) => ({
       vaultAddress: vault.vaultAddress,
       tokenAddress: vault.tokenAddress,
-      lpContract: new this.web3.eth.Contract(UNIV2PairAbi),
       tokenContract: new this.web3.eth.Contract(ERC20.abi),
     }))
 
@@ -48,3 +48,5 @@ export class Contracts {
     this.uniCoreVault.options.from = account
   }
 }
+
+export default Contracts

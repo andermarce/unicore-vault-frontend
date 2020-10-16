@@ -1,15 +1,14 @@
 import React from 'react'
-import { Box } from '@material-ui/core'
+import { Flex } from '../Flex'
 
 export const FlexCenter = ({ children, ...props}) => {
   return (
-    <Box
-      display="flex"
+    <Flex
       alignItems="center"
       justifyContent="center"
       {...props}
     >
       {children}
-    </Box>
+    </Flex>
   )
 }

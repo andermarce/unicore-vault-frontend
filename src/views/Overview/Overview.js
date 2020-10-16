@@ -1,9 +1,19 @@
 import React from 'react'
+import { Typography } from '@material-ui/core'
+import { useWallet } from 'use-wallet'
+import { ViewWrapper, ManualButton } from 'components'
+import { BalanceRow } from './components/BalanceRow'
 
 export const Overview = () => {
+  const { account } = useWallet();
+
   return (
-    <div>
-      
-    </div>
+    <ViewWrapper>
+      <img src={require('assets/img/unicore-icon.png')} height="100px" />
+      <Typography variant="h4">Welcome to UniCore</Typography>
+      <Typography variant="subtitle1">Constant Liquidity Provider Protocol</Typography>
+      <ManualButton />
+      <BalanceRow />
+    </ViewWrapper>
   )
 }

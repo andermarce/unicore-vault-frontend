@@ -1,32 +1,26 @@
-import React from 'react';
-import { ThemeProvider } from '@material-ui/core';
-import { UseWalletProvider } from 'use-wallet';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import React from 'react'
+import { ThemeProvider } from '@material-ui/core'
+import { UseWalletProvider } from 'use-wallet'
+import CssBaseline from '@material-ui/core/CssBaseline'
 import theme from './theme';
-import NetworkProvider from 'contexts/Network';
-import ModalsProvider from 'contexts/Modals';
+import LockerProvider from 'contexts/Locker'
+import NetworkProvider from 'contexts/Network'
+import ModalsProvider from 'contexts/Modals'
+import UniCoreProvider from 'contexts/UniCore'
 import { useNetwork } from 'hooks/useNetwork'
 import { Routes } from './Routes'
 
 // only load necessary font weights
 // https://material-ui.com/components/typography/#general
-
-// import "fontsource-roboto/400.css";
-// import "fontsource-roboto/500.css";
-// import "fontsource-roboto/600.css";
-// import "fontsource-roboto/800.css";
-
-import "fontsource-orbitron/400.css";
-import "fontsource-orbitron/500.css";
-import "fontsource-orbitron/600.css";
-import "fontsource-orbitron/800.css";
+import "fontsource-montserrat/400.css"
+import "fontsource-montserrat/500.css"
+import "fontsource-montserrat/600.css"
+import "fontsource-montserrat/800.css"
 import "assets/styles/styles.css"
-import { ReactorCore } from 'components/ReactorCore/ReactorCore';
+import ReactorProvider  from 'contexts/Reactor';
 
 const WalletApp = () => {
-  const { network } = useNetwork();
-  console.log(network)
+  const { network } = useNetwork()
 
   return (
     <UseWalletProvider
@@ -36,36 +30,31 @@ const WalletApp = () => {
         : undefined
       }
     >
-      <ReactorCore>
-        <ModalsProvider>
-          <Routes />
-        </ModalsProvider>
-      </ReactorCore>
+      <UniCoreProvider>
+        <ReactorProvider>
+          <LockerProvider>
+            <ModalsProvider>
+              <Routes />
+            </ModalsProvider>
+          </LockerProvider>
+        </ReactorProvider>
+      </UniCoreProvider>
     </UseWalletProvider>
   )
 }
 
 
-export const App = () => {
+const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Router>
-        <Switch>
-          <Route path="/rinkeby">
-            <NetworkProvider network={4}>
-              <WalletApp />
-            </NetworkProvider>
-          </Route>
-          <Route path="/">
-            <NetworkProvider network={1}>
-              <WalletApp />
-            </NetworkProvider>
-          </Route>
-        </Switch>
-      </Router>
+      <NetworkProvider network={4}>
+        <WalletApp />
+      </NetworkProvider>
     </ThemeProvider>
   )
 }
+
+export default App
 
 

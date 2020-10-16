@@ -2,10 +2,8 @@ import React from 'react'
 import { Box, Fade } from '@material-ui/core'
 import { useWallet } from 'use-wallet'
 
-
 export const ReactorCore = ({ children }) => {
   const { account } = useWallet()
-
 
   return (
     <>
@@ -39,11 +37,7 @@ export const ReactorCore = ({ children }) => {
         />
       </div>
       <div className="reactor-holder">
-        <Fade in={!account} timeout={{
-          enter: 0,
-          appear: 0,
-          exit: 2000
-        }}>
+        <Fade in={!account} timeout={1500}>
           <img 
             src={require("assets/img/reactor-core.png")}
             className="reactor-core"

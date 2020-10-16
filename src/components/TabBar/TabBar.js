@@ -1,27 +1,62 @@
-import React from 'react'
-import { Box, Tabs, Tab } from '@material-ui/core'
-import { FlexCenter } from 'components'
-import { useHistory } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Box, Tabs, Tab, Fade } from '@material-ui/core'
+import { Flex } from 'components'
+import { useHistory, useLocation } from 'react-router-dom'
+import { useWallet } from 'use-wallet'
 
 
 export const TabBar = () => {
-  const history = useHistory();
-  const [value, setValue] = React.useState(1);
+  const { account } = useWallet()
+  const location = useLocation()
+  const history = useHistory()
+  const [value, setValue] = React.useState(1)
+
+  useEffect(() => {
+    switch (location.pathname) {
+      case "/reactor": 
+        setValue(0);
+        break
+      case "/overview": 
+        setValue(1)
+        break
+      case "/vault": 
+        setValue(2)
+        break
+      default: setValue(1)
+    }
+  }, [location])
 
   const handleChange = (index, route) => {
-    setValue(index);
+    setValue(index)
     history.push(route)
   };
 
   return (
-    // <FlexCenter>
-    <Box display="flex" flexDirection="column">
-      <Tabs value={value} onChange={handleChange} centered>
-        <Tab label="Meltdown" id="meltdown" onClick={() => handleChange(0, '/meltdown')} />
-        <Tab label="Overview" id="overview" onClick={() => handleChange(1, '/')} />
-        <Tab label="Vault" id="vault" onClick={() => handleChange(2, '/vault')} />
+    <Flex flexDirection="column">
+      <Fade in={!!account} timeout={1500}>
+      <Tabs 
+        value={value} 
+        onChange={handleChange} 
+        indicatorColor="primary"
+        centered
+      >
+        <Tab 
+          className={value === 0 ? 'active' : undefined}
+          label="Reactor" 
+          onClick={() => handleChange(0, '/reactor')} 
+        />
+        <Tab
+          className={value === 1 ? 'active' : undefined} 
+          label="Overview" 
+          onClick={() => handleChange(1, '/overview')}
+        />
+        <Tab
+          className={value === 2 ? 'active' : undefined}
+          label="Vault" 
+          onClick={() => handleChange(2, '/vault')} 
+        />
       </Tabs>
-    </Box>
-    // </FlexCenter>
+      </Fade>
+    </Flex>
   )
 }

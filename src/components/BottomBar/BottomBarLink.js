@@ -7,7 +7,7 @@ export const BottomBarLink = ({
 }) => {
   return (
     <Box
-      marginX={2}
+      marginX={1}
     >
       <Link
         target="blank"

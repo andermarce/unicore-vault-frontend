@@ -1,4 +1,4 @@
-export class Account {
+class Account {
   constructor(contracts, address) {
     this.contracts = contracts
     this.accountInfo = address
@@ -10,3 +10,5 @@ export class Account {
     this.walletInfo = {}
   }
 }
+
+export default Account

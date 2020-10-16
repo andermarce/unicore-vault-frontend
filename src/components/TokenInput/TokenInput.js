@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const Launch = () => {
+export const TokenInput = () => {
   return (
     <div>
       

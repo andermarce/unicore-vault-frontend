@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
-import { Box, Button, DialogContent, DialogTitle } from '@material-ui/core'
+import { Box, DialogContent, DialogTitle } from '@material-ui/core'
 import { useWallet } from 'use-wallet'
-
+import { ProviderButton } from './ProviderButton'
 
 export const ConnectModal = ({ onDismiss }) => {
   const { account, connect } = useWallet();
@@ -22,22 +22,10 @@ export const ConnectModal = ({ onDismiss }) => {
           alignItems="center"
           justifyContent="center"
         >
-          <Button
-            onClick={() => connect('injected')}
-            variant="outlined" 
-            color="primary" 
-            fullWidth
-          >
-            MetaMask
-          </Button>
-          <Button 
-            onClick={() => connect('walletconnect')}
-            variant="outlined"
-            color="primary"
-            fullWidth
-          >
-            WalletConnect
-          </Button>
+          <ProviderButton title="Metamask" provider="injected" />
+          <ProviderButton title="Walletconnect" provider="walletconnect" />
+          <ProviderButton title="Frame" provider="frame" />
+          <ProviderButton title="Authereum" provider="authereum" />
         </Box>
       </DialogContent>
     </>
