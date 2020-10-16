@@ -4,11 +4,8 @@ import { FlexCenter } from '../FlexCenter/FlexCenter'
 
 export const BottomBar = () => {
   return (
-    <FlexCenter
-      flexDirection="column"
-      
-    >
-      <img width="200px" src={require('assets/img/unicore-brand.png')} />
+    <FlexCenter flexDirection="column">
+      <img width="200px" src={require('assets/img/unicore-brand.png')} alt="unicore-brand" />
       <FlexCenter>
         <BottomBarLink url="https://github.com/unicore-vault">
           GitHub
@@ -16,11 +13,8 @@ export const BottomBar = () => {
         <BottomBarLink url="https://medium.com/@unicore">
           Medium
         </BottomBarLink>
-        <BottomBarLink url="https://discord.com">
+        <BottomBarLink url="https://discord.gg/YuJNJJM">
           Discord
-        </BottomBarLink>
-        <BottomBarLink url="https://telegram.com">
-          Telegram
         </BottomBarLink>
       </FlexCenter>
     </FlexCenter>

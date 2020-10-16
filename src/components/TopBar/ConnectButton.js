@@ -13,7 +13,6 @@ export const ConnectButton = () => {
   const { account, ethereum, reset } = useWallet()
 
   useEffect(() => {
-    console.log(account)
     if (!!account && ethereum) {
       // if we have a specified path, go there
       if (location.pathname !== '/') {
@@ -26,7 +25,7 @@ export const ConnectButton = () => {
       // go back to landing on logout
       history.push('/')
     }
-  }, [account, ethereum])
+  }, [account, ethereum, history, location.pathname])
 
   return (
     <Box marginY={1}>

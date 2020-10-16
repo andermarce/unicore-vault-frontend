@@ -20,13 +20,13 @@ export const useAddressLocked = () => {
   const fetchLocked = useCallback(async () => {
     const locked = await getEthContributedBy(uniCoreContract, account)
     setTotalLocked(new BigNumber(locked))
-  }, [account, block, ethereum, uniCore, setTotalLocked])
+  }, [account, uniCoreContract, setTotalLocked])
 
   useEffect(() => {
     if (ethereum && account) {
       fetchLocked()
     }
-  }, [block, ethereum, account])
+  }, [ethereum, account, block, fetchLocked])
 
   return addressLocked
 }

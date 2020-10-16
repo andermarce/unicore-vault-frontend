@@ -3,7 +3,10 @@ import { LockerContext } from 'contexts/Locker'
 
 export const useLocker = () => {
   const { 
-    formState,
+    amount,
+    checked,
+    error,
+    errorMessage,
     setAmount,
     setMax,
     setChecked,
@@ -11,7 +14,10 @@ export const useLocker = () => {
   } = useContext(LockerContext)
 
   return {
-    formState,
+    amount,
+    checked,
+    error,
+    errorMessage,
     setAmount,
     setMax,
     setChecked,

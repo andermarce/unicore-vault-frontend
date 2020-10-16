@@ -1,4 +1,3 @@
-import ethers from 'ethers'
 import BigNumber from 'bignumber.js'
 
 // LGE TXNS
@@ -13,12 +12,10 @@ export const userLockEthereum = async (uniCoreContract, account, amount, agreeme
         value: amount 
       })
       .on('transactionHash', (tx) => {
-        console.log(tx)
         return tx.transactionHash
       })
     return result
   } catch (e) {
-    console.log(e)
     return '0'
   }
 }
@@ -52,7 +49,7 @@ export const userClaimLiquidity = async (uniCoreContract, account) => {
 export const getTotalEthContributed = async (uniCoreContract) => {
   try {
     const result = await uniCoreContract.methods
-      .totalEthContributed()
+      .totalETHContributed()
       .call()
     return result
   } catch (e) {
@@ -89,6 +86,7 @@ export const getTotalCap = async (uniCoreContract) => {
       .call()
     return result
   } catch (e) {
+    console.log(e)
     return '0'
   }
 }
@@ -148,6 +146,7 @@ export const getStakingPhase = async (uniCoreContract) => {
       .call()
     return result * 1000
   } catch (e) {
+    console.log(e)
     return 0
   }
 }
@@ -250,12 +249,14 @@ export const wrapUniV2 = async (wrappedContract, account, amount) => {
 // Approval
 
 export const approve = async (tokenContract, spenderAddress, account) => {
-  try {
-    return tokenContract.methods
-      .approve(spenderAddress,  new BigNumber(ethers.constants.MaxUint256))
+    try {
+      console.log(tokenContract, spenderAddress, account)
+      const tx = tokenContract.methods
+      .approve(spenderAddress, new BigNumber(2).pow(256).minus(1))
       .send({ from: account })
-  } catch (e) {
-    console.log(e)
-    return '0'
-  }
+      .on('transactionHash',(tx) => tx.transactionHash)
+      return tx
+    } catch (e) {
+      return false
+    }
 }

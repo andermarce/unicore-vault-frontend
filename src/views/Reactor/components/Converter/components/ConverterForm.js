@@ -1,13 +1,8 @@
-import React, { useEffect, useMemo } from 'react'
-import BigNumber from 'bignumber.js'
-import { useWallet } from 'use-wallet'
+import React from 'react'
 import { useConverter } from 'hooks/useConverter'
-import { useUniCore } from 'hooks/useUniCore'
-import { getUniCoreContract } from 'UniCore'
 import { ConverterButton } from './ConverterButton'
 import { ConverterButtonGroup } from './ConverterButtonGroup'
-import { 
-  Button,
+import {
   FormGroup,
   InputAdornment,
   TextField,
@@ -19,7 +14,7 @@ import { useTokenBalance } from 'hooks/useTokenBalance'
 
 
 export const ConverterForm = () => {
-  const { address, amount, setAmount } = useConverter()
+  const { address, amount, error, setAmount } = useConverter()
   const tokenBalance = useTokenBalance(address)
 
   return (
@@ -32,7 +27,7 @@ export const ConverterForm = () => {
         onChange={(e) => setAmount(e.target.value)}
         placeholder="Enter an amount..."
         variant="outlined"
-        error={false}
+        error={error}
         InputProps={{
           startAdornment: <InputAdornment position="start">🦄</InputAdornment>,
         }}

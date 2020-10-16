@@ -4,7 +4,7 @@ import { useWallet } from 'use-wallet'
 import { ProviderButton } from './ProviderButton'
 
 export const ConnectModal = ({ onDismiss }) => {
-  const { account, connect } = useWallet();
+  const { account } = useWallet();
 
   useEffect(() => {
     if (account) {

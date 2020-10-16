@@ -7,14 +7,13 @@ export const UniCoreContext = createContext({
 })
 
 const UniCoreProvider = ({ children }) => {
-  const { address, ethereum } = useWallet()
+  const { ethereum } = useWallet()
   const [uniCore, setUniCore] = useState()
 
   window.eth = ethereum
 
   useEffect(() => {
     if (ethereum) {
-      console.log('init')
       const networkId = Number(ethereum.chainId)
       const uniCoreLib = new UniCore(ethereum, networkId, ethereum.selectedAddress);
       setUniCore(uniCoreLib)

@@ -8,16 +8,15 @@ import { poolCreateLiquidity } from 'UniCore/utils'
 export const LiquidityButton = () => {
   const { account } = useWallet()
   const uniCore = useUniCore()
-  // const { }
 
   const uniCoreContract = useMemo(() => {
     return getUniCoreContract(uniCore)
-  }, [account, uniCore])
+  }, [uniCore])
 
   const createLiquidity = useCallback(async () => {
     const txHash = await poolCreateLiquidity(uniCoreContract, account)
     return txHash
-  }, [account, uniCore, uniCoreContract])
+  }, [account, uniCoreContract])
 
   return (
     <Button

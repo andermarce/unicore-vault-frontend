@@ -5,7 +5,6 @@ import { useWallet } from 'use-wallet'
 import { useUniCore } from 'hooks/useUniCore'
 import { getUniCoreContract } from 'UniCore'
 import { getTotalEthContributed } from 'UniCore/utils'
-import { getDisplayBalance } from 'utils'
 
 export const useTotalLocked = () => {
   const [totalLocked, setTotalLocked] = useState(new BigNumber(0))

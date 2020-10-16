@@ -7,6 +7,7 @@ import { LiquidityButton } from './LiquidityButton'
 export const LockCountdown = () => {
   const { contractStart, contributionPhase, contractEnd } = useReactor()
   const timeRemaining = useTimeRemaining(contractStart + contributionPhase)
+  const showCountdown = Date.now() < contractStart + contributionPhase
 
   return (
     <>
@@ -15,7 +16,7 @@ export const LockCountdown = () => {
         <Typography variant="h5" color="secondary">In Progress</Typography>
       </Box>
       
-      {contractEnd === 0 ? (
+      {showCountdown ? (
         <>
           <Typography variant="h3">
             {timeRemaining}

@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useMemo, useState } from 'react';
+import React, { createContext, useCallback, useMemo, useState } from 'react';
 import BigNumber from 'bignumber.js'
 import { useWallet } from 'use-wallet'
 import { useUniCore } from 'hooks/useUniCore'
@@ -28,22 +28,22 @@ const LockerProvider = ({ children }) => {
   }, [uniCore])
 
   const [formState, setFormState] = useState({
-    amount: '0',
+    amount: '',
     fullAmount: new BigNumber(0),
     checked: false,
     error: false,
     errorMessage: ''
   })
 
-  const handleSetAmount = (amount) => {
+  const handleSetAmount = useCallback((amount) => {
     const amt = new BigNumber(amount).times(new BigNumber(10).pow(18))
-    if (amount < 0) {
+    if (amount <= 0 || isNaN(amount)) {
       setFormState({
         ...formState,
         fullAmount: amt,
         amount,
         error: true,
-        errorMessage: "Cannot lock negative or 0 ethereum"
+        errorMessage: "Invalid Input"
       })
     } else if (amt.gt(balance)) {
       setFormState({
@@ -77,32 +77,35 @@ const LockerProvider = ({ children }) => {
         error: false
       })
     }
-  }
+  }, [formState, setFormState, balance, maxIndividualCap, maxTotalCap])
 
-  const handleSetMax = () => {
+  const handleSetMax = useCallback(() => {
     setFormState({
       ...formState,
       fullAmount: balance,
       amount: new BigNumber(balance).div(new BigNumber(10).pow(18))
     })
-  }
+  }, [formState, balance, setFormState])
 
-  const handleSetChecked = () => {
+  const handleSetChecked = useCallback(() => {
     setFormState({
       ...formState,
       checked: !formState.checked
     })
-  }
+  }, [formState, setFormState])
 
-  const handleLockEthereum = async () => {
+  const handleLockEthereum = useCallback(async () => {
     const txHash = await userLockEthereum(uniCoreContract, account, formState.fullAmount, formState.checked)
     return txHash
-  }
+  }, [account, uniCoreContract, formState.fullAmount, formState.checked])
 
 
   return (
     <LockerContext.Provider value={{
-      formState,
+      amount: formState.amount,
+      checked: formState.checked,
+      error: formState.error,
+      errorMessage: formState.errorMessage,
       setAmount: handleSetAmount,
       setMax: handleSetMax,
       setChecked: handleSetChecked,

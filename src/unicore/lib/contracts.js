@@ -34,6 +34,8 @@ class Contracts {
     }
 
     setProvider(this.uniCore, Addresses[networkId].uniCore)
+    setProvider(this.uniCoreLp, Addresses[networkId].uniCoreLp)
+    setProvider(this.uniCoreWrapped, Addresses[networkId].uniCoreWrapped)
     setProvider(this.uniCoreVault, Addresses[networkId].uniCoreVault)
     setProvider(this.weth, Addresses[networkId].weth)
 

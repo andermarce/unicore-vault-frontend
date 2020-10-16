@@ -11,19 +11,19 @@ export const getUniCoreLpAddress = (uniCore) => {
 }
 
 export const getWrappedAddress = (uniCore) => {
-  return uniCore && uniCore.wrappedAddress
+  return uniCore && uniCore.uniCoreWrappedAddress
 }
 
 export const getVaultAddress = (uniCore) => {
-  return uniCore && uniCore.vaultAddress
+  return uniCore && uniCore.uniCoreVaultAddress
 }
 
 export const getUniCoreContract = (uniCore) => {
   return uniCore && uniCore.contracts && uniCore.contracts.uniCore
 }
 
-export const getUniCoreLpContrat = (uniCore) => {
-  return uniCore && uniCore.contracts && uniCore.contracts.uniCore
+export const getUniCoreLpContract = (uniCore) => {
+  return uniCore && uniCore.contracts && uniCore.contracts.uniCoreLp
 }
 
 export const getWrappedContract = (uniCore) => {

@@ -2,31 +2,36 @@ import React, { useMemo } from 'react'
 import { Button } from '@material-ui/core'
 import { useConverter } from 'hooks/useConverter'
 import { useUniCore } from 'hooks/useUniCore'
-import { getUniV2Contract, getWrappedContract } from 'UniCore'
+import { getUniCoreLpContract, getWrappedContract } from 'UniCore'
 import { useAllowance } from 'hooks/useAllowance'
 import { useApprove } from 'hooks/useApprove'
-import ERC20 from 'UniCore/abi/IERC20.json'
-import { getContract } from 'utils/erc'
-import { useWallet } from 'use-wallet'
 
 export const ConverterButton = () => {
-  const { address, checked, error, onDeposit } = useConverter()
-  const { ethereum } = useWallet()
+  const { amount, checked, error, onDeposit } = useConverter()
   const uniCore = useUniCore()
   const wrappedContract = useMemo(() => {
     return getWrappedContract(uniCore)
   }, [uniCore])
 
   const uniV2Contract = useMemo(() => {
-    return getContract(ethereum, address)
-  }, [address, uniCore])
+    return getUniCoreLpContract(uniCore)
+  }, [uniCore])
 
   const allowance = useAllowance(uniV2Contract, wrappedContract)
   const { onApproveWrapped } = useApprove(uniV2Contract)
 
+  const isDisabled = () => {
+    if (allowance.gt(0)) {
+      if (error || !checked) {
+        return true
+      }
+    }
+    return false
+  }
+
   return (
     <Button
-      disabled={allowance.gt(0) && !checked || error}
+      disabled={() => isDisabled()}
       onClick={allowance.eq(0) 
         ? onApproveWrapped
         : onDeposit
@@ -34,7 +39,7 @@ export const ConverterButton = () => {
       variant="contained" 
       color="secondary"
     >
-      {allowance.eq(0) ? "Approve Staking" : "Deposit"}
+      {allowance.eq(0) ? "Approve Wrapping" : "Wrap UNICORE UNI-V2"}
     </Button>
   )
 }

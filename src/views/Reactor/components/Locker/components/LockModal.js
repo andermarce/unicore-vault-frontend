@@ -1,9 +1,5 @@
 import React, { useMemo } from 'react'
-import BigNumber from 'bignumber.js'
-import { useWallet } from 'use-wallet'
 import { useLocker } from 'hooks/useLocker'
-import { useUniCore } from 'hooks/useUniCore'
-import { getUniCoreContract } from 'UniCore'
 import { LockAcceptance } from './LockAcceptance'
 import { LockButtonGroup } from './LockButtonGroup'
 import { 
@@ -15,17 +11,19 @@ import {
   TextField,
 } from '@material-ui/core'
 
-
-
 export const LockModal = ({ onDismiss }) => {
   const {
-    formState,
+    amount,
+    checked,
+    error,
+    errorMessage,
     setAmount,
     lockEthereum
   } = useLocker()
 
   const handleClick = async () => {
-    const tx = await lockEthereum()
+    // const tx = await lockEthereum()
+    lockEthereum()
     onDismiss()
   }
   
@@ -37,11 +35,11 @@ export const LockModal = ({ onDismiss }) => {
           <TextField
             type="number"
             label="Lock Ethereum"
-            value={formState.amount}
+            value={amount}
             onChange={(e) => setAmount(e.target.value)}
             placeholder="Enter an amount..."
             variant="outlined"
-            error={formState.error}
+            error={error}
             //helperText={formState.helperText}
             InputProps={{
               startAdornment: <InputAdornment position="start">Ξ</InputAdornment>,
@@ -52,13 +50,13 @@ export const LockModal = ({ onDismiss }) => {
           
           <Button
             onClick={handleClick}
-            disabled={!formState.checked || formState.error}
+            disabled={error || !checked || !!+amount}
             variant="contained" 
             color="secondary"
           >
-            {!formState.error
+            {!error
               ? "Deposit Liquidity"
-              : formState.errorMessage
+              : errorMessage
             }
           </Button>
         </FormGroup>

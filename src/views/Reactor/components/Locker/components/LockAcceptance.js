@@ -10,14 +10,14 @@ const useStyles = makeStyles(() => ({
 
 export const LockAcceptance = () => {
   const classes = useStyles()
-  const { formState, setChecked } = useLocker() 
+  const { checked, setChecked } = useLocker() 
 
   return (
     <FormControlLabel
       classes={classes}
       control={
         <Checkbox
-          checked={formState.checked}
+          checked={checked}
           onChange={setChecked}
           color="secondary"
         />

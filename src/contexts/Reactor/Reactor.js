@@ -3,7 +3,6 @@ import BigNumber from 'bignumber.js'
 import { useUniCore } from 'hooks/useUniCore'
 import { useWallet } from 'use-wallet'
 import { getUniCoreContract } from 'UniCore'
-import { getDisplayBalance } from 'utils'
 import { 
   getIndividualCap,
   getTotalCap,
@@ -12,6 +11,7 @@ import {
   getContributionPhase,
   getStakingPhase
  } from 'UniCore/utils'
+ import { useBlock } from 'hooks/useBlock'
 
 export const ReactorContext = createContext({
   phase: 0,
@@ -35,16 +35,17 @@ const ReactorProvider = ({ children }) => {
   })
   const { ethereum } = useWallet()
   const uniCore = useUniCore()
+  const block = useBlock()
 
   const uniCoreContract = useMemo(() => {
     return getUniCoreContract(uniCore)
-  }, [ethereum, uniCore])
+  }, [uniCore])
 
   const getPhase = (contractEnd, stakingPhase) => {
     const now = Date.now()
     if (contractEnd === 0) {
       return 0
-    } else if (contractEnd + stakingPhase < now) {
+    } else if (contractEnd + stakingPhase > now) {
       return 1
     } else {
       return 2
@@ -68,8 +69,6 @@ const ReactorProvider = ({ children }) => {
       getStakingPhase(uniCoreContract)
     ])
 
-    console.log(contractStart, contributionPhase)
-
     setReactor({
       phase: getPhase(contractEnd, stakingPhase),
       maxIndividualCap: new BigNumber(maxIndividualCap),
@@ -79,13 +78,22 @@ const ReactorProvider = ({ children }) => {
       contributionPhase,
       stakingPhase
     })
-  }, [ethereum, uniCore, uniCoreContract])
+  }, [uniCoreContract])
 
   useEffect(() => {
     if (ethereum && uniCore) {
       fetchData()
     }
-  }, [ethereum, uniCore])
+  }, [ethereum, uniCore, fetchData])
+
+  useEffect(() => {
+    if (ethereum && uniCore) {
+      setReactor({
+        ...reactorState,
+        phase: getPhase(reactorState.contractEnd, reactorState.stakingPhase)
+      })
+    }
+  }, [block, ethereum, uniCore])
 
   return (
     <ReactorContext.Provider value={reactorState}>

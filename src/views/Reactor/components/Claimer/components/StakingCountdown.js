@@ -4,8 +4,8 @@ import { useReactor } from 'hooks/useReactor'
 import { useTimeRemaining } from 'hooks/useTimeRemaining'
 
 export const StakingCountdown = () => {
-  const { contractComplete, stakingPhase } = useReactor()
-  const timeRemaining = useTimeRemaining(contractComplete + stakingPhase)
+  const { contractEnd, stakingPhase } = useReactor()
+  const timeRemaining = useTimeRemaining(contractEnd + stakingPhase)
 
   return (
     <>
@@ -13,7 +13,7 @@ export const StakingCountdown = () => {
         <Typography variant="h4" color="textPrimary">
           Reactor Cooldown
         </Typography>
-        <Typography variant="h5" color="info">
+        <Typography variant="h5">
           Sequence Initiating
         </Typography>
       </Box>

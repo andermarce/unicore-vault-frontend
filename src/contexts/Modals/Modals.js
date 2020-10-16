@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useState } from 'react'
-import { Backdrop, Box, Dialog, Fade, Modal, Paper } from '@material-ui/core'
+import { Dialog } from '@material-ui/core'
 
 export const ModalsContext = createContext({
   onDismiss: () => {},
@@ -9,7 +9,6 @@ export const ModalsContext = createContext({
 const ModalsProvider = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [content, setContent] = useState();
-  const [title, setTitle] = useState('');
 
   const handlePresent = useCallback((modalContent) => {
     setContent(modalContent)
@@ -19,7 +18,7 @@ const ModalsProvider = ({ children }) => {
   const handleDismiss = useCallback(() => {
     //setContent(undefined)
     setIsOpen(false)
-  }, [setContent, setIsOpen])
+  }, [setIsOpen])
 
 
   return (

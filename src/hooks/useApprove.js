@@ -1,30 +1,34 @@
 
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import { useUniCore } from './useUniCore'
 import { useWallet } from 'use-wallet'
 import { approve } from 'UniCore/utils'
-import { getWrappedContract, getVaultContract, getWrappedAddress } from 'UniCore'
+import { getVaultAddress, getWrappedAddress } from 'UniCore'
 
 export const useApprove = (tokenContract) => {
   const { account } = useWallet()
   const uniCore = useUniCore()
-  const wrappedContract = getWrappedContract(uniCore)
-  const vaultContract = getVaultContract(uniCore)
+  const wrappedAddress = useMemo(() => {
+    return getWrappedAddress(uniCore)
+  }, [uniCore])
+  const vaultAddress = useMemo(() => {
+    return getVaultAddress(uniCore)
+  }, [uniCore])
 
   const handleApproveWrapped = async () => {
     try {
-      console.log(tokenContract, wrappedContract, account)
-      const tx = await approve(tokenContract, wrappedContract, account)
+      const tx = await approve(tokenContract, wrappedAddress, account)
       console.log(tx)
       return tx
     } catch (e) {
+      console.log(e)
       return false
     }
   }
 
   const handleApproveVault = async () => {
     try {
-      const tx = await approve(tokenContract, vaultContract, account)
+      const tx = await approve(tokenContract, vaultAddress, account)
       return tx
     } catch (e) {
       return false
