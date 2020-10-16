@@ -5,7 +5,7 @@ import { useWallet } from 'use-wallet'
 import { getBalance } from 'utils/erc'
 import { useBlock } from './useBlock'
 
-export const useTokenBalance = (tokenAddress) => {
+export const useStakedBalance = (tokenAddress) => {
   const [balance, setBalance] = useState(new BigNumber(0))
   const {
     account,

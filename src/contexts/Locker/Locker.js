@@ -4,6 +4,9 @@ import { useWallet } from 'use-wallet'
 import { useUniCore } from 'hooks/useUniCore'
 import { getUniCoreContract } from 'UniCore'
 import { userLockEthereum } from 'UniCore/utils'
+import { useAddressLocked } from 'hooks/useAddressLocked';
+import { useTotalLocked } from 'hooks/useTotalLocked';
+import { useReactor } from 'hooks/useReactor'
 
 export const LockerContext = createContext({
   formState: {},
@@ -16,6 +19,9 @@ export const LockerContext = createContext({
 const LockerProvider = ({ children }) => {
   const { account, balance, ethereum } = useWallet()
   const uniCore = useUniCore()
+  const { maxIndividualCap, maxTotalCap, contractEnd } = useReactor()
+  const addressLocked = useAddressLocked()
+  const totalLocked = useTotalLocked()
   
   const uniCoreContract = useMemo(() => {
     return getUniCoreContract(uniCore)
@@ -23,34 +29,50 @@ const LockerProvider = ({ children }) => {
 
   const [formState, setFormState] = useState({
     amount: '0',
+    fullAmount: new BigNumber(0),
     checked: false,
     error: false,
     errorMessage: ''
   })
 
-  useEffect(() => {
-
-  })
-
-
   const handleSetAmount = (amount) => {
-    const bal = uniCore.web3.utils.fromWei(balance)
-    
+    const amt = new BigNumber(amount).times(new BigNumber(10).pow(18))
     if (amount < 0) {
       setFormState({
         ...formState,
+        fullAmount: amt,
         amount,
-        error: true
+        error: true,
+        errorMessage: "Cannot lock negative or 0 ethereum"
       })
-    } else if (amount > bal) {
+    } else if (amt.gt(balance)) {
       setFormState({
         ...formState,
+        fullAmount: amt,
         amount,
-        error: true
+        error: true,
+        errorMessage: "Cannot lock more ethereum than current balance"
+      })
+    } else if (totalLocked.plus(amt).gt(maxTotalCap)) { // if over the max cap
+      setFormState({
+        ...formState,
+        error: true,
+        fullAmount: amt,
+        amount,
+        errorMessage: "Value exceeds Maximum Total Cap"
+      })
+    } else if (addressLocked.plus(amt).gt(maxIndividualCap)) {
+      setFormState({
+        ...formState,
+        error: true,
+        fullAmount: amt,
+        amount,
+        errorMessage: "Value exceeds Maximum Individual Cap"
       })
     } else { // handle max contrib and limit
       setFormState({
         ...formState,
+        fullAmount: amt,
         amount,
         error: false
       })
@@ -58,7 +80,11 @@ const LockerProvider = ({ children }) => {
   }
 
   const handleSetMax = () => {
-    
+    setFormState({
+      ...formState,
+      fullAmount: balance,
+      amount: new BigNumber(balance).div(new BigNumber(10).pow(18))
+    })
   }
 
   const handleSetChecked = () => {
@@ -69,9 +95,7 @@ const LockerProvider = ({ children }) => {
   }
 
   const handleLockEthereum = async () => {
-    const amountToSend = new BigNumber(formState.amount).times(new BigNumber(10).pow(18))
-    console.log(formState, amountToSend)
-    const txHash = await userLockEthereum(uniCoreContract, account, amountToSend, formState.checked)
+    const txHash = await userLockEthereum(uniCoreContract, account, formState.fullAmount, formState.checked)
     return txHash
   }
 

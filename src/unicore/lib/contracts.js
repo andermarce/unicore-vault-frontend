@@ -10,11 +10,13 @@ class Contracts {
     this.web3 = web3
 
     this.uniCore = new this.web3.eth.Contract(UniCore.abi)
+    this.uniCoreLp = new this.web3.eth.Contract(ERC20.abi)
     this.uniCoreWrapped = new this.web3.eth.Contract(UniCoreWrapped.abi)
     this.uniCoreVault = new this.web3.eth.Contract(UniCoreVault.abi)
     this.weth = new this.web3.eth.Contract(IWETH.abi)
 
     this.vaults = Addresses[networkId].vaults.map((vault) => ({
+      vaultId: vault.vaultId,
       vaultAddress: vault.vaultAddress,
       tokenAddress: vault.tokenAddress,
       tokenContract: new this.web3.eth.Contract(ERC20.abi),

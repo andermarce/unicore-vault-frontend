@@ -15,6 +15,7 @@ export class UniCore {
     this.contracts = new Contracts(provider, networkId, this.web3, options)
 
     this.uniCoreAddress = Addresses[networkId].uniCore
+    this.uniCoreLpAddress = Addresses[networkId].uniCoreLp
     this.uniCoreWrappedAddress = Addresses[networkId].uniCoreWrapped
     this.uniCoreVaultAddress = Addresses[networkId].uniCoreVault
     this.wethAddress = Addresses[networkId].weth

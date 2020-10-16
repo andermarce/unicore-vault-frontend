@@ -7,10 +7,9 @@ import { getUniCoreContract } from 'UniCore'
 import { useReactor } from 'hooks/useReactor'
 
 export const ClaimButton = () => {
-  const [completed, setCompleted] = useState(0)
   const { account, ethereum } = useWallet()
   const uniCore = useUniCore()
-  const { getContractComplete } = useReactor()
+  const { contractEnd } = useReactor()
 
   const uniCoreContract = useMemo(() => {
     return getUniCoreContract(uniCore)
@@ -21,16 +20,10 @@ export const ClaimButton = () => {
     return txnHash
   }, [account, ethereum, uniCore])
 
-  useEffect(() => {
-    if (ethereum) {
-      setCompleted(getContractComplete)
-    }
-  }, [ethereum, uniCore, getContractComplete])
-
   return (
     <Box>
       <Button
-        disabled={completed === 0}
+        disabled={contractEnd === 0}
         onClick={claimWrappedTokens}
         color="primary"
         variant="outlined"

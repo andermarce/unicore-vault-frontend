@@ -9,6 +9,7 @@ export const ManualButton = () => {
 
   return (
     <Button
+      size="large"
       color="primary"
       onClick={showManualModal}
     >

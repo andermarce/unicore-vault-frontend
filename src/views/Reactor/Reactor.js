@@ -10,11 +10,11 @@ export const Reactor = () => {
 
   return (
     <ViewWrapper>
-      <Locker />
-      {/* <Converter /> */}
-      {/* {phase === 0 && <Locker />}
+      {/* <Locker /> */}
+      {/* <Converter/> */}
+      {phase === 0 && <Locker />}
       {phase === 1 && <Claimer />}
-      {phase === 2 && <Converter />} */}
+      {phase === 2 && <Converter />}
     </ViewWrapper>  
   )
 }

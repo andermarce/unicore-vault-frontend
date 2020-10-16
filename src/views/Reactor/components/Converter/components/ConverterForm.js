@@ -1,48 +1,47 @@
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import BigNumber from 'bignumber.js'
 import { useWallet } from 'use-wallet'
-import { useLocker } from 'hooks/useLocker'
+import { useConverter } from 'hooks/useConverter'
 import { useUniCore } from 'hooks/useUniCore'
 import { getUniCoreContract } from 'UniCore'
-// import { LockAcceptance } from './LockAcceptance'
-// import { LockButtonGroup } from './LockButtonGroup'
+import { ConverterButton } from './ConverterButton'
+import { ConverterButtonGroup } from './ConverterButtonGroup'
 import { 
   Button,
-  DialogTitle, 
-  DialogContent,
   FormGroup,
   InputAdornment,
   TextField,
 } from '@material-ui/core'
+import { ConverterAcceptance } from './ConverterAcceptance'
+import { Balance } from 'components'
+import { getDisplayBalance } from 'utils'
+import { useTokenBalance } from 'hooks/useTokenBalance'
 
 
 export const ConverterForm = () => {
+  const { address, amount, setAmount } = useConverter()
+  const tokenBalance = useTokenBalance(address)
+
   return (
     <FormGroup>
       <TextField
         type="number"
-        label="Lock Ethereum"
-        value={''}
-        // onChange={(e) => setAmount(e.target.value)}
+        label="Convert UNICORE UNI-V2"
+        margin="normal"
+        value={amount}
+        onChange={(e) => setAmount(e.target.value)}
         placeholder="Enter an amount..."
         variant="outlined"
         error={false}
-        //helperText={formState.helperText}
         InputProps={{
-          startAdornment: <InputAdornment position="start">Ξ</InputAdornment>,
+          startAdornment: <InputAdornment position="start">🦄</InputAdornment>,
         }}
       />
-      {/* <LockButtonGroup />
-      <LockAcceptance /> */}
+      <ConverterButtonGroup />
+      <ConverterAcceptance />
       
-      <Button
-        onClick={()=>{}}
-        disabled={false}
-        variant="contained" 
-        color="secondary"
-      >
-        Deposit Liquidity
-      </Button>
+      <ConverterButton />
+      <Balance title="UNICORE UNI-V2" value={getDisplayBalance(tokenBalance)} />
     </FormGroup>
   )
 }

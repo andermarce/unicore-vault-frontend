@@ -11,7 +11,7 @@ export const Overview = () => {
     <ViewWrapper>
       <img src={require('assets/img/unicore-icon.png')} height="100px" />
       <Typography variant="h4">Welcome to UniCore</Typography>
-      <Typography variant="subtitle1">Constant Liquidity Provider Protocol</Typography>
+      <Typography variant="subtitle1" color="secondary">Constant Liquidity Provider Protocol</Typography>
       <ManualButton />
       <BalanceRow />
     </ViewWrapper>

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import BigNumber from 'bignumber.js'
 import { useBlock } from 'hooks/useBlock'
 import { useWallet } from 'use-wallet'
 import { useUniCore } from 'hooks/useUniCore'
@@ -7,7 +8,7 @@ import { getTotalEthContributed } from 'UniCore/utils'
 import { getDisplayBalance } from 'utils'
 
 export const useTotalLocked = () => {
-  const [totalLocked, setTotalLocked] = useState('0')
+  const [totalLocked, setTotalLocked] = useState(new BigNumber(0))
   const { ethereum } = useWallet()
   const block = useBlock()
   const uniCore = useUniCore()
@@ -18,8 +19,7 @@ export const useTotalLocked = () => {
 
   const fetchLocked = useCallback(async () => {
     const locked = await getTotalEthContributed(uniCoreContract)
-    const display = getDisplayBalance(uniCore.toBigN(locked))
-    setTotalLocked(display)
+    setTotalLocked(new BigNumber(locked))
   }, [block, ethereum, uniCore, setTotalLocked])
 
   useEffect(() => {

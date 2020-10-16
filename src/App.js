@@ -3,9 +3,11 @@ import { ThemeProvider } from '@material-ui/core'
 import { UseWalletProvider } from 'use-wallet'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import theme from './theme';
+import ConverterProvider from 'contexts/Converter'
 import LockerProvider from 'contexts/Locker'
 import NetworkProvider from 'contexts/Network'
 import ModalsProvider from 'contexts/Modals'
+import ReactorProvider  from 'contexts/Reactor';
 import UniCoreProvider from 'contexts/UniCore'
 import { useNetwork } from 'hooks/useNetwork'
 import { Routes } from './Routes'
@@ -17,7 +19,7 @@ import "fontsource-montserrat/500.css"
 import "fontsource-montserrat/600.css"
 import "fontsource-montserrat/800.css"
 import "assets/styles/styles.css"
-import ReactorProvider  from 'contexts/Reactor';
+
 
 const WalletApp = () => {
   const { network } = useNetwork()
@@ -33,9 +35,11 @@ const WalletApp = () => {
       <UniCoreProvider>
         <ReactorProvider>
           <LockerProvider>
-            <ModalsProvider>
-              <Routes />
-            </ModalsProvider>
+            <ConverterProvider>
+              <ModalsProvider>
+                <Routes />
+              </ModalsProvider>
+            </ConverterProvider>
           </LockerProvider>
         </ReactorProvider>
       </UniCoreProvider>

@@ -19,6 +19,16 @@ export const useTimeRemaining = (endTime) => {
     return timeLeft
   }
 
+  const padTime = (time) => {
+    if (!time) {
+      return "00"
+    } else if (time < 10) {
+      return "0" + time
+    } else {
+      return time
+    }
+  }
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setTimeRemaining(calculateTimeRemaining());
@@ -27,6 +37,6 @@ export const useTimeRemaining = (endTime) => {
     return () => clearTimeout(timer);
   });
 
-  return `${timeRemaining.hours || "00"}:${timeRemaining.minutes || "00"}:${timeRemaining.seconds || "00"}`
+  return `${padTime(timeRemaining.hours)}:${padTime(timeRemaining.minutes)}:${padTime(timeRemaining.seconds)}`
     
 }

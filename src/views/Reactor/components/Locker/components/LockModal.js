@@ -23,6 +23,11 @@ export const LockModal = ({ onDismiss }) => {
     setAmount,
     lockEthereum
   } = useLocker()
+
+  const handleClick = async () => {
+    const tx = await lockEthereum()
+    onDismiss()
+  }
   
   return (
     <>
@@ -46,12 +51,15 @@ export const LockModal = ({ onDismiss }) => {
           <LockAcceptance />
           
           <Button
-            onClick={lockEthereum}
+            onClick={handleClick}
             disabled={!formState.checked || formState.error}
             variant="contained" 
             color="secondary"
           >
-            Deposit Liquidity
+            {!formState.error
+              ? "Deposit Liquidity"
+              : formState.errorMessage
+            }
           </Button>
         </FormGroup>
       </DialogContent>

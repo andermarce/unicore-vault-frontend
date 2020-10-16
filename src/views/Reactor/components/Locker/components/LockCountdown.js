@@ -2,9 +2,10 @@ import React from 'react'
 import { Box, Typography } from '@material-ui/core'
 import { useReactor } from 'hooks/useReactor'
 import { useTimeRemaining } from 'hooks/useTimeRemaining'
+import { LiquidityButton } from './LiquidityButton'
 
 export const LockCountdown = () => {
-  const { contractStart, contributionPhase } = useReactor()
+  const { contractStart, contributionPhase, contractEnd } = useReactor()
   const timeRemaining = useTimeRemaining(contractStart + contributionPhase)
 
   return (
@@ -14,10 +15,17 @@ export const LockCountdown = () => {
         <Typography variant="h5" color="secondary">In Progress</Typography>
       </Box>
       
-      <Typography variant="h3">
-        {timeRemaining}
-      </Typography>
-      <Typography variant="subtitle2" color="textSecondary">Until Liquidity Generation</Typography>
+      {contractEnd === 0 ? (
+        <>
+          <Typography variant="h3">
+            {timeRemaining}
+          </Typography>
+          <Typography variant="subtitle2" color="textSecondary">Until Liquidity Generation</Typography>
+        </>
+      ) : (
+        <LiquidityButton />
+      )}
+      
     </>
   )
 }

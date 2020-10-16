@@ -15,8 +15,8 @@ import {
 
 export const ReactorContext = createContext({
   phase: 0,
-  maxIndividualCap: '0',
-  maxTotalCap: '0',
+  maxIndividualCap: new BigNumber(0),
+  maxTotalCap: new BigNumber(0),
   contractStart: 0,
   contractEnd: 0,
   contributionPhase: 0,
@@ -25,8 +25,9 @@ export const ReactorContext = createContext({
 
 const ReactorProvider = ({ children }) => {
   const [reactorState, setReactor] = useState({
-    maxIndividualCap: '0',
-    maxTotalCap: '0',
+    phase: 0,
+    maxIndividualCap: new BigNumber(0),
+    maxTotalCap: new BigNumber(0),
     contractStart: 0,
     contractEnd: 0,
     contributionPhase: 0,
@@ -39,7 +40,7 @@ const ReactorProvider = ({ children }) => {
     return getUniCoreContract(uniCore)
   }, [ethereum, uniCore])
 
-  const getPhase = useCallback((contractEnd, stakingPhase) => {
+  const getPhase = (contractEnd, stakingPhase) => {
     const now = Date.now()
     if (contractEnd === 0) {
       return 0
@@ -48,7 +49,7 @@ const ReactorProvider = ({ children }) => {
     } else {
       return 2
     }
-  }, [])
+  }
 
   const fetchData = useCallback(async () => {
     const [
@@ -67,10 +68,12 @@ const ReactorProvider = ({ children }) => {
       getStakingPhase(uniCoreContract)
     ])
 
+    console.log(contractStart, contributionPhase)
+
     setReactor({
       phase: getPhase(contractEnd, stakingPhase),
-      maxIndividualCap: getDisplayBalance(new BigNumber(maxIndividualCap)),
-      maxTotalCap: getDisplayBalance(new BigNumber(maxTotalCap)),
+      maxIndividualCap: new BigNumber(maxIndividualCap),
+      maxTotalCap: new BigNumber(maxTotalCap),
       contractStart,
       contractEnd,
       contributionPhase,
@@ -79,7 +82,7 @@ const ReactorProvider = ({ children }) => {
   }, [ethereum, uniCore, uniCoreContract])
 
   useEffect(() => {
-    if (ethereum) {
+    if (ethereum && uniCore) {
       fetchData()
     }
   }, [ethereum, uniCore])

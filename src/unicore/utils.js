@@ -1,4 +1,5 @@
 import ethers from 'ethers'
+import BigNumber from 'bignumber.js'
 
 // LGE TXNS
 
@@ -94,6 +95,17 @@ export const getTotalCap = async (uniCoreContract) => {
 
 // LIQUIDITY EVENT TIMESTAMPS => return UNIX TS or 0
 
+export const getContractInit = async (uniCoreContract) => {
+  try {
+    const result = await uniCoreContract.methods
+      .contractInitialized()
+      .call()
+    return result
+  } catch (e) {
+    return 0
+  }
+}
+
 export const getContractStart = async (uniCoreContract) => {
   try {
     const result = await uniCoreContract.methods
@@ -166,25 +178,69 @@ export const vaultWithdraw = async (vaultContract, vaultId, account, amount) => 
   }
 }
 
-export const vaultClaimRewards = async (vaultContract, vaultId, account) => {
+export const getStakedAmount = async (vaultContract, vaultId, account) => {
   try {
     const result = await vaultContract.methods
-      .claim(vaultId)
-      .send({ from: account })
-      .on('transactionHash', (tx) => tx.transactionHash)
+      .userInfo(vaultId, account)
+      .call()
+    return result
+  } catch (e) {
+    return '0'
+  }
+}
+
+export const getPendingRewards = async (vaultContract, vaultId, account) => {
+  try {
+    const result = await vaultContract.methods
+      .pendingUniCore(vaultId, account)
+      .call()
     return result
   }catch (e) {
     return '0'
   }
 }
 
+export const getAvgFees = async (vaultContract) => {
+  try {
+    const result = await vaultContract.methods
+      .averageFeesPerBlockSinceStart()
+      .call()
+    return result
+  } catch (e) {
+    return '0'
+  }
+}
+
+export const getBlockEpochFees = async (vaultContract) => {
+  try {
+    const result = await vaultContract.methods
+      .averageFeesPerBlockEpoch()
+      .call()
+    return result
+  } catch (e) {
+    return '0'
+  }
+}
+
 // wUNIV2
+export const getUniV2Address = async (uniCoreContract) => {
+  try {
+    const result = await uniCoreContract.methods
+      .viewUNIv2()
+      .call()
+    return result
+  } catch (e) {
+    return '0'
+  }
+}
+
 
 export const wrapUniV2 = async (wrappedContract, account, amount) => {
   try {
     const result = await wrappedContract.methods
       .wrapUNIv2(amount)
       .send({ from: account})
+      .on('transactionHash', (tx) => tx.transactionHash)
     return result
   } catch (e) {
     return '0'
@@ -193,8 +249,13 @@ export const wrapUniV2 = async (wrappedContract, account, amount) => {
 
 // Approval
 
-export const approve = async (tokenContract, spenderContract, account) => {
-  return tokenContract.methods
-    .approve(spenderContract.options.address, ethers.constants.MaxUint256)
-    .send({ from: account })
+export const approve = async (tokenContract, spenderAddress, account) => {
+  try {
+    return tokenContract.methods
+      .approve(spenderAddress,  new BigNumber(ethers.constants.MaxUint256))
+      .send({ from: account })
+  } catch (e) {
+    console.log(e)
+    return '0'
+  }
 }

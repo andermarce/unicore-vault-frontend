@@ -23,9 +23,9 @@ export const ConnectModal = ({ onDismiss }) => {
           justifyContent="center"
         >
           <ProviderButton title="Metamask" provider="injected" />
-          <ProviderButton title="Walletconnect" provider="walletconnect" />
           <ProviderButton title="Frame" provider="frame" />
           <ProviderButton title="Authereum" provider="authereum" />
+          <ProviderButton title="Walletconnect" provider="walletconnect" />
         </Box>
       </DialogContent>
     </>
