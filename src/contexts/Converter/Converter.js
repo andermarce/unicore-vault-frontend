@@ -42,21 +42,23 @@ const ConverterProvider = ({ children }) => {
   const tokenBalance = useTokenBalance(lpAddress)
 
   const handleSetAmount = useCallback((amount) => {
+    if (amount <= 0 || isNaN(amount)) {
+      setConverter({
+        ...converter,
+        amount,
+        error: true
+      })
+      return
+    }
+
     const wei = new BigNumber(amount).times(new BigNumber(10).pow(18)).decimalPlaces(0)
     const display =  uniCore.web3.utils.fromWei(wei.toString())
     const safeValue = uniCore.web3.utils.toWei(display)
-    if (amount < 0) {
+    
+    if (wei.gt(tokenBalance)) {
       setConverter({
         ...converter,
         amount,
-        fullAmount: safeValue,
-        error: true
-      })
-    } else if (wei.gt(tokenBalance)) {
-      setConverter({
-        ...converter,
-        amount,
-        fullAmount: safeValue,
         error: true
       })
     } else {

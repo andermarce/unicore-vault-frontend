@@ -6,7 +6,7 @@ import { useUniCore } from './useUniCore'
 import { getPendingRewards } from 'UniCore/utils'
 import { getVaultContract } from 'UniCore'
 
-export const usePendingRewards = (vaultId) => {
+export const usePendingRewards = () => {
   const [balance, setBalance] = useState(new BigNumber(0))
   const {
     account,
@@ -20,15 +20,15 @@ export const usePendingRewards = (vaultId) => {
   }, [uniCore])
 
   const fetchBalance = useCallback(async () => {
-    const balance = await getPendingRewards(vaultContract, vaultId, account)
+    const balance = await getPendingRewards(vaultContract, 0, account)
     setBalance(new BigNumber(balance))
-  }, [account, ethereum, vaultId, vaultContract])
+  }, [account, ethereum, vaultContract])
 
   useEffect(() => {
     if (account && ethereum) {
       fetchBalance()
     }
-  }, [account, ethereum, setBalance, block, vaultId, fetchBalance])
+  }, [account, ethereum, setBalance, block, fetchBalance])
 
   return balance
 }

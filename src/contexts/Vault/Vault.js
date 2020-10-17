@@ -54,18 +54,19 @@ const VaultProvider = ({ children }) => {
 
   const handleSetAmount = useCallback((amount) => {
     
+    if (amount <= 0 || isNaN(amount)) {
+      setVault({
+        ...vaultState,
+        amount,
+        error: true
+      })
+      return
+    }
     const balance = vaultState.vaultMethod === 'deposit' ? tokenBalance : stakedBalance
     const wei = new BigNumber(amount).times(new BigNumber(10).pow(18)).decimalPlaces(0)
     const display =  uniCore.web3.utils.fromWei(wei.toString())
     const safeValue = uniCore.web3.utils.toWei(display)
-    if (amount < 0) {
-      setVault({
-        ...vaultState,
-        amount,
-        fullAmount: safeValue,
-        error: true
-      })
-    } else if (wei.gt(balance)) {
+    if (wei.gt(balance)) {
       setVault({
         ...vaultState,
         amount,

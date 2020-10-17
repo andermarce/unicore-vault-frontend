@@ -6,12 +6,12 @@ import { LockModal } from './LockModal'
 
 export const LockButton = () => {
   const [showLockModal] = useModal(<LockModal />)
-  const { contractEnd } = useReactor()
+  const { contractStart, contributionPhase } = useReactor()
 
   return (
     <Box marginY={2}>
       <Button
-        disabled={contractEnd !== 0}
+        disabled={contractStart + contributionPhase > Date.now()}
         onClick={showLockModal}
         color="primary"
         variant="outlined"

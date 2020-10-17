@@ -18,10 +18,8 @@ export const useApprove = (tokenContract) => {
   const handleApproveWrapped = async () => {
     try {
       const tx = await approve(tokenContract, wrappedAddress, account)
-      console.log(tx)
       return tx
     } catch (e) {
-      console.log(e)
       return false
     }
   }

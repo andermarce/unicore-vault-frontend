@@ -4,7 +4,7 @@ import { useVault } from 'hooks/useVault'
 import { usePendingRewards } from 'hooks/usePendingRewards'
 
 export const VaultClaimButton = () => {
-  const pendingRewards = usePendingRewards()
+  const pendingRewards = usePendingRewards(0)
   const { onClaim } = useVault()
 
   return (

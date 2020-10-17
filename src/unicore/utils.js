@@ -157,7 +157,6 @@ export const getStakingPhase = async (uniCoreContract) => {
       .call()
     return result * 1000
   } catch (e) {
-    console.log(e)
     return 0
   }
 }
@@ -172,7 +171,6 @@ export const vaultDeposit = async (vaultContract, vaultId, account, amount) => {
       .on('transactionHash', (tx) => tx.transactionHash)
     return result
   } catch (e) {
-    console.log(e)
     return '0'
   }
 }
@@ -270,7 +268,6 @@ export const approve = async (tokenContract, spenderAddress, account) => {
       .on('transactionHash',(tx) => tx.transactionHash)
       return tx
     } catch (e) {
-      console.log(e)
       return false
     }
 }

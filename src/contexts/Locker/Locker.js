@@ -36,19 +36,21 @@ const LockerProvider = ({ children }) => {
   })
 
   const handleSetAmount = useCallback((amount) => {
-    const amt = new BigNumber(amount).times(new BigNumber(10).pow(18))
+
     if (amount <= 0 || isNaN(amount)) {
       setFormState({
         ...formState,
-        fullAmount: amt,
         amount,
         error: true,
         errorMessage: "Invalid Input"
       })
-    } else if (amt.gt(balance)) {
+      return
+    }
+
+    const amt = new BigNumber(amount).times(new BigNumber(10).pow(18))
+    if (amt.gt(balance)) {
       setFormState({
         ...formState,
-        fullAmount: amt,
         amount,
         error: true,
         errorMessage: "Value exceeds balance"
@@ -57,7 +59,6 @@ const LockerProvider = ({ children }) => {
       setFormState({
         ...formState,
         error: true,
-        fullAmount: amt,
         amount,
         errorMessage: "Value exceeds Maximum Total Cap"
       })
