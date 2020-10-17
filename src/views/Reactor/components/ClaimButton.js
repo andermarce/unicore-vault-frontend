@@ -30,7 +30,7 @@ export const ClaimButton = () => {
         color="primary"
         variant="outlined"
       >
-        Claim wUNI-V2
+        Claim REACTOR
       </Button>
     </Box>
   )

@@ -9,12 +9,12 @@ export const getContract = (provider, address) => {
 
 export const getAllowance = async (
   tokenContract,
-  spendingContract,
+  spendingAddress,
   account,
 ) => {
   try {
     const allowance = await tokenContract.methods
-      .allowance(account, spendingContract.options.address)
+      .allowance(account, spendingAddress)
       .call()
     return allowance
   } catch (e) {

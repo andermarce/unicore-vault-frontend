@@ -9,12 +9,12 @@ export const Reactor = () => {
   const { phase } = useReactor()
 
   return (
-    <ViewWrapper>
+    <>
       {/* <Locker /> */}
       {/* <Converter/> */}
       {phase === 0 && <Locker />}
       {phase === 1 && <Claimer />}
       {phase === 2 && <Converter />}
-    </ViewWrapper>  
+    </>  
   )
 }

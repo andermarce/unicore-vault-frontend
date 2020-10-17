@@ -86,7 +86,17 @@ export const getTotalCap = async (uniCoreContract) => {
       .call()
     return result
   } catch (e) {
-    console.log(e)
+    return '0'
+  }
+}
+
+export const getLpUnits = async (uniCoreContract) => {
+  try {
+    const result = await uniCoreContract.methods
+      .LPperETHUnit()
+      .call()
+    return result
+  } catch (e) {
     return '0'
   }
 }

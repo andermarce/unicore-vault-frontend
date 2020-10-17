@@ -9,7 +9,8 @@ import {
   getContractStart,
   getContractComplete,
   getContributionPhase,
-  getStakingPhase
+  getStakingPhase,
+  getLpUnits
  } from 'UniCore/utils'
  import { useBlock } from 'hooks/useBlock'
 
@@ -20,7 +21,8 @@ export const ReactorContext = createContext({
   contractStart: 0,
   contractEnd: 0,
   contributionPhase: 0,
-  stakingPhase: 0
+  stakingPhase: 0,
+  lpUnits: new BigNumber(0)
 })
 
 const ReactorProvider = ({ children }) => {
@@ -31,7 +33,8 @@ const ReactorProvider = ({ children }) => {
     contractStart: 0,
     contractEnd: 0,
     contributionPhase: 0,
-    stakingPhase: 0
+    stakingPhase: 0,
+    lpUnits: new BigNumber(0)
   })
   const { ethereum } = useWallet()
   const uniCore = useUniCore()
@@ -59,14 +62,16 @@ const ReactorProvider = ({ children }) => {
       contractStart,
       contractEnd,
       contributionPhase,
-      stakingPhase
+      stakingPhase,
+      lpUnits
     ] = await Promise.all([
       getIndividualCap(uniCoreContract),
       getTotalCap(uniCoreContract),
       getContractStart(uniCoreContract),
       getContractComplete(uniCoreContract),
       getContributionPhase(uniCoreContract),
-      getStakingPhase(uniCoreContract)
+      getStakingPhase(uniCoreContract),
+      getLpUnits(uniCoreContract)
     ])
 
     setReactor({
@@ -76,7 +81,8 @@ const ReactorProvider = ({ children }) => {
       contractStart,
       contractEnd,
       contributionPhase,
-      stakingPhase
+      stakingPhase,
+      lpUnits
     })
   }, [uniCoreContract])
 

@@ -7,16 +7,25 @@ import { getDisplayBalance } from 'utils'
 
 export const IndividualLock = ({ showLimit=false }) => {
   const addressLocked = useAddressLocked()
-  const { maxIndividualCap } = useReactor()
+  const { maxIndividualCap, lpUnits } = useReactor()
+
   return (
     <Box marginY={1}>
       <Typography variant="h6">
         {showLimit 
           ? `${getDisplayBalance(addressLocked)} / ${getDisplayBalance(maxIndividualCap)}`
-          : getDisplayBalance(addressLocked)
+          : getDisplayBalance(addressLocked.times(lpUnits))
         }
       </Typography>
-      <Typography variant="subtitle2" color="textSecondary">MY LOCKED ETH</Typography>
+        {showLimit ? (
+          <Typography variant="subtitle2" color="textSecondary">
+            MY LOCKED ETH
+          </Typography> 
+        ) : (
+          <Typography variant="subtitle2" color="textSecondary">
+            CLAIMABLE REACTOR
+          </Typography> 
+        )}
     </Box>
   )
 }

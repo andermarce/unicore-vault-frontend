@@ -13,7 +13,7 @@ export const StakingCountdown = () => {
         <Typography variant="h4" color="textPrimary">
           Reactor Cooldown
         </Typography>
-        <Typography variant="h5">
+        <Typography variant="h5" color="secondary">
           Sequence Initiating
         </Typography>
       </Box>

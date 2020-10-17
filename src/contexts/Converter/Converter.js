@@ -1,10 +1,10 @@
-import React, { createContext, useCallback, useEffect, useMemo, useState } from 'react'
+import React, { createContext, useCallback, useMemo, useState } from 'react'
 import BigNumber from 'bignumber.js'
 import { useUniCore } from 'hooks/useUniCore'
-import { useAllowance } from 'hooks/useAllowance'
-import { useApprove } from 'hooks/useApprove' 
 import { useTokenBalance } from 'hooks/useTokenBalance'
-import { getWrappedContract, getWrappedAddress, getUniCoreContract } from 'UniCore'
+import { getUniCoreLpAddress, getWrappedContract } from 'UniCore'
+import { wrapUniV2 } from 'UniCore/utils'
+import { useWallet } from 'use-wallet'
 
 export const ConverterContext = createContext({
   amount: '0',
@@ -18,6 +18,7 @@ export const ConverterContext = createContext({
 })
 
 const ConverterProvider = ({ children }) => {
+  const { account } = useWallet()
   const [converter, setConverter] = useState({
     amount: '',
     fullAmount: new BigNumber(0),
@@ -26,14 +27,14 @@ const ConverterProvider = ({ children }) => {
   })
 
   const uniCore = useUniCore()
-  const wrappedAddress = useMemo(() => {
-    return getWrappedAddress(uniCore)
+  const lpAddress = useMemo(() => {
+    return getUniCoreLpAddress(uniCore)
   }, [uniCore])
   const wrappedContract = useMemo(() => {
     return getWrappedContract(uniCore)
   }, [uniCore])
 
-  const tokenBalance = useTokenBalance(wrappedAddress)
+  const tokenBalance = useTokenBalance(lpAddress)
 
   const handleSetAmount = useCallback((amount) => {
     const wei = new BigNumber(amount).times(new BigNumber(10).pow(18))
@@ -85,9 +86,10 @@ const ConverterProvider = ({ children }) => {
     })
   }, [converter, setConverter])
 
-  const handleDeposit = () => {
-
-  }
+  const handleDeposit = useCallback(async () => {
+    const tx = await wrapUniV2(wrappedContract, account, converter.fullAmount)
+    return tx
+  }, [account, wrappedContract, converter.fullAmount])
 
   return (
     <ConverterContext.Provider value={{

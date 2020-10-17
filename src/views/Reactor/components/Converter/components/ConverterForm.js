@@ -1,4 +1,6 @@
-import React from 'react'
+import React, { useMemo } from 'react'
+import { useUniCore } from 'hooks/useUniCore'
+import { getUniCoreLpAddress } from 'UniCore'
 import { useConverter } from 'hooks/useConverter'
 import { ConverterButton } from './ConverterButton'
 import { ConverterButtonGroup } from './ConverterButtonGroup'
@@ -14,8 +16,13 @@ import { useTokenBalance } from 'hooks/useTokenBalance'
 
 
 export const ConverterForm = () => {
-  const { address, amount, error, setAmount } = useConverter()
-  const tokenBalance = useTokenBalance(address)
+  const { amount, error, setAmount } = useConverter()
+  
+  const uniCore = useUniCore()
+  const uniCoreLpAddress = useMemo(() => {
+    return getUniCoreLpAddress(uniCore)
+  })
+  const tokenBalance = useTokenBalance(uniCoreLpAddress)
 
   return (
     <FormGroup>

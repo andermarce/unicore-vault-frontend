@@ -22,7 +22,7 @@ export const useStakedBalance = (tokenAddress) => {
     if (account && ethereum) {
       fetchBalance()
     }
-  }, [account, ethereum, setBalance, block, tokenAddress])
+  }, [account, ethereum, setBalance, block, tokenAddress, fetchBalance])
 
   return balance
 }

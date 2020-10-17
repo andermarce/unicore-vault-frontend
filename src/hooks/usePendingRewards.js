@@ -22,13 +22,13 @@ export const usePendingRewards = (vaultId) => {
   const fetchBalance = useCallback(async () => {
     const balance = await getPendingRewards(vaultContract, vaultId, account)
     setBalance(new BigNumber(balance))
-  }, [account, ethereum, vaultId])
+  }, [account, ethereum, vaultId, vaultContract])
 
   useEffect(() => {
     if (account && ethereum) {
       fetchBalance()
     }
-  }, [account, ethereum, setBalance, block, vaultId])
+  }, [account, ethereum, setBalance, block, vaultId, fetchBalance])
 
   return balance
 }
