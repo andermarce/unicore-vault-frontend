@@ -7,7 +7,8 @@ import { wrapUniV2 } from 'UniCore/utils'
 import { useWallet } from 'use-wallet'
 
 BigNumber.config({ 
-  DECIMAL_PLACES: 18
+  DECIMAL_PLACES: 18,
+  ROUNDING_MODE: BigNumber.ROUND_FLOOR
 })
 
 export const ConverterContext = createContext({
@@ -42,25 +43,27 @@ const ConverterProvider = ({ children }) => {
 
   const handleSetAmount = useCallback((amount) => {
     const wei = new BigNumber(amount).times(new BigNumber(10).pow(18))
+    const display =  uniCore.web3.utils.fromWei(wei.toString())
+    const safeValue = uniCore.web3.utils.toWei(display)
     if (amount < 0) {
       setConverter({
         ...converter,
         amount,
-        fullAmount: wei,
+        fullAmount: safeValue,
         error: true
       })
     } else if (wei.gt(tokenBalance)) {
       setConverter({
         ...converter,
         amount,
-        fullAmount: wei,
+        fullAmount: safeValue,
         error: true
       })
     } else {
       setConverter({
         ...converter,
         amount,
-        fullAmount: wei,
+        fullAmount: safeValue,
         error: false
       })
     }
@@ -68,8 +71,8 @@ const ConverterProvider = ({ children }) => {
 
   const handleButton = useCallback((perc) => {
     const wei = new BigNumber(tokenBalance).multipliedBy(new BigNumber(perc).div(100))
-    const display = wei.div(new BigNumber(10).pow(18))
-    const safeValue = uniCore.web3.utils.toWei(display.toString())
+    const display =  uniCore.web3.utils.fromWei(wei.toString())
+    const safeValue = uniCore.web3.utils.toWei(display)
     setConverter({
       ...converter,
       fullAmount: safeValue,

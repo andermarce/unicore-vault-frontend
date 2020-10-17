@@ -3,7 +3,7 @@ import { Box, Typography } from '@material-ui/core'
 import { useAddressLocked } from 'hooks/useAddressLocked'
 import { useReactor } from 'hooks/useReactor'
 import { getDisplayBalance } from 'utils' 
-
+import BigNumber from 'bignumber.js'
 
 export const IndividualLock = ({ showLimit=false }) => {
   const addressLocked = useAddressLocked()
@@ -14,7 +14,7 @@ export const IndividualLock = ({ showLimit=false }) => {
       <Typography variant="h6">
         {showLimit 
           ? `${getDisplayBalance(addressLocked)} / ${getDisplayBalance(maxIndividualCap)}`
-          : getDisplayBalance(addressLocked.times(lpUnits))
+          : getDisplayBalance(addressLocked.times(lpUnits).div(new BigNumber(10).pow(18)))
         }
       </Typography>
         {showLimit ? (

@@ -8,7 +8,8 @@ import { useTokenBalance } from 'hooks/useTokenBalance'
 import { useStakedBalance } from 'hooks/useStakedBalance'
 
 BigNumber.config({ 
-  DECIMAL_PLACES: 18
+  DECIMAL_PLACES: 18,
+  ROUNDING_MODE: BigNumber.ROUND_FLOOR
 })
 
 export const VaultContext = createContext({
@@ -52,28 +53,30 @@ const VaultProvider = ({ children }) => {
   const stakedBalance = useStakedBalance()
 
   const handleSetAmount = useCallback((amount) => {
-    const wei = new BigNumber(amount).times(new BigNumber(10).pow(18))
-    const balance = vaultState.vaultMethod === 'deposit' ? tokenBalance : stakedBalance
     
+    const balance = vaultState.vaultMethod === 'deposit' ? tokenBalance : stakedBalance
+    const wei = new BigNumber(amount).times(new BigNumber(10).pow(18))
+    const display =  uniCore.web3.utils.fromWei(wei.toString())
+    const safeValue = uniCore.web3.utils.toWei(display)
     if (amount < 0) {
       setVault({
         ...vaultState,
         amount,
-        fullAmount: wei,
+        fullAmount: safeValue,
         error: true
       })
     } else if (wei.gt(balance)) {
       setVault({
         ...vaultState,
         amount,
-        fullAmount: wei,
+        fullAmount: safeValue,
         error: true
       })
     } else {
       setVault({
         ...vaultState,
         amount,
-        fullAmount: wei,
+        fullAmount: safeValue,
         error: false
       })
     }
@@ -81,9 +84,9 @@ const VaultProvider = ({ children }) => {
 
   const handleButton = useCallback((perc) => {
     const balance = vaultState.vaultMethod === 'deposit' ? tokenBalance : stakedBalance
-    const wei = new BigNumber(balance).multipliedBy(new BigNumber(perc).div(100))
-    const display = wei.div(new BigNumber(10).pow(18))
-    const safeValue = uniCore.web3.utils.toWei(display.toString())
+    const wei = new BigNumber(balance).multipliedBy(new BigNumber(perc).div(100)).decimalPlaces(0)
+    const display = uniCore.web3.utils.fromWei(wei.toString())
+    const safeValue = uniCore.web3.utils.toWei(display)
     setVault({
       ...vaultState,
       fullAmount: safeValue,

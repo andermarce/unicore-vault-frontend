@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import { ethers } from 'ethers'
 
 // LGE TXNS
 
@@ -262,12 +263,14 @@ export const wrapUniV2 = async (wrappedContract, account, amount) => {
 
 export const approve = async (tokenContract, spenderAddress, account) => {
     try {
+      // const amount = new BigNumber()
       const tx = tokenContract.methods
-      .approve(spenderAddress, new BigNumber(2).pow(256).minus(1))
+      .approve(spenderAddress,  ethers.constants.MaxUint256.toString())
       .send({ from: account })
       .on('transactionHash',(tx) => tx.transactionHash)
       return tx
     } catch (e) {
+      console.log(e)
       return false
     }
 }

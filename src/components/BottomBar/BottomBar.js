@@ -13,7 +13,7 @@ export const BottomBar = () => {
         <BottomBarLink url="https://medium.com/@unicore">
           Medium
         </BottomBarLink>
-        <BottomBarLink url="https://discord.gg/YuJNJJM">
+        <BottomBarLink url="https://discord.gg/NCYueeS">
           Discord
         </BottomBarLink>
       </FlexCenter>
