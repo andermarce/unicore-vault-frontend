@@ -5,9 +5,15 @@ import { vaultDeposit, vaultWithdraw } from 'UniCore/utils'
 import { useWallet } from 'use-wallet'
 import BigNumber from 'bignumber.js'
 import { useTokenBalance } from 'hooks/useTokenBalance'
+import { useStakedBalance } from 'hooks/useStakedBalance'
+
+BigNumber.config({ 
+  DECIMAL_PLACES: 18
+})
 
 export const VaultContext = createContext({
   vaultId: 0,
+  vaultMethod: 'deposit',
   amount: '',
   error: false,
   errorMessage: '',
@@ -17,12 +23,15 @@ export const VaultContext = createContext({
   setAmount: () => {},
   onButton: () => {},
   setMax: () => {},
+  onSwitch: () => {}
 })
 
 const VaultProvider = ({ children }) => {
   const [vaultState, setVault] = useState({
     vaultId: 0,
+    vaultMethod: 'deposit',
     amount: '',
+    fullAmount: new BigNumber(0),
     error: false,
     errorMessage: ''
   })
@@ -40,9 +49,12 @@ const VaultProvider = ({ children }) => {
   }, [uniCore])
 
   const tokenBalance = useTokenBalance(wrappedAddress)
+  const stakedBalance = useStakedBalance()
 
   const handleSetAmount = useCallback((amount) => {
     const wei = new BigNumber(amount).times(new BigNumber(10).pow(18))
+    const balance = vaultState.vaultMethod === 'deposit' ? tokenBalance : stakedBalance
+    
     if (amount < 0) {
       setVault({
         ...vaultState,
@@ -50,7 +62,7 @@ const VaultProvider = ({ children }) => {
         fullAmount: wei,
         error: true
       })
-    } else if (wei.gt(tokenBalance)) {
+    } else if (wei.gt(balance)) {
       setVault({
         ...vaultState,
         amount,
@@ -68,40 +80,76 @@ const VaultProvider = ({ children }) => {
   }, [vaultState, tokenBalance, setVault])
 
   const handleButton = useCallback((perc) => {
-    const wei = tokenBalance.times(perc/100)
+    const balance = vaultState.vaultMethod === 'deposit' ? tokenBalance : stakedBalance
+    const wei = new BigNumber(balance).multipliedBy(new BigNumber(perc).div(100))
+    const display = wei.div(new BigNumber(10).pow(18))
+    const safeValue = uniCore.web3.utils.toWei(display.toString())
     setVault({
       ...vaultState,
-      fullAmount: wei,
-      amount: wei.div(new BigNumber(10).pow(18))
+      fullAmount: safeValue,
+      amount: display
     })
   }, [vaultState, tokenBalance, setVault])
 
   const setMax = useCallback(() => {
+    const balance = vaultState.vaultMethod === 'deposit' ? tokenBalance : stakedBalance
     setVault({
       ...vaultState,
       fullAmount: tokenBalance,
-      amount: new BigNumber(tokenBalance).div(new BigNumber(10).pow(18))
+      amount: new BigNumber(balance).div(new BigNumber(10).pow(18))
     })
   }, [vaultState, tokenBalance, setVault])
 
   const handleWithdraw = useCallback(async () => {
      const tx = await vaultWithdraw(vaultContract, vaultState.vaultId, account, vaultState.fullAmount)
+     resetState()
      return tx
-  }, [vaultContract, vaultState.vaultId, account, vaultState.amount])
+  }, [vaultContract, vaultState.vaultId, account, vaultState.fullAmount])
+
+  const handleDeposit = useCallback(async () => {
+    const tx = await vaultDeposit(vaultContract, vaultState.vaultId, account, vaultState.fullAmount)
+    resetState()
+    return tx
+  }, [vaultContract, vaultState.vaultId, account, vaultState.fullAmount])
 
   const handleClaim = useCallback(async () => {
     const tx = await vaultWithdraw(vaultContract, vaultState.vaultId, account, 0)
     return tx
  }, [vaultContract, vaultState.vaultId, account])
 
-  const handleDeposit = useCallback(async () => {
-    const tx = await vaultDeposit(vaultContract, vaultState.vaultId, account, 0)
-    return tx
-  }, [vaultContract, vaultState.vaultId, account, vaultState.amount])
+  const handleSwitch = () => {
+    if (vaultState.vaultMethod === 'deposit') {
+      setVault({
+        ...vaultState, 
+        vaultMethod: 'withdraw',
+        amount: '',
+        fullAmount: new BigNumber(0),
+        error: false
+      })
+    } else {
+      setVault({
+        ...vaultState, 
+        vaultMethod: 'deposit',
+        amount: '',
+        fullAmount: new BigNumber(0),
+        error: false
+      })
+    }
+  }
+
+  const resetState = () => {
+    setVault({
+      ...vaultState,
+      amount: '',
+      fullAmount: new BigNumber(0),
+      error: false
+    })
+  }
 
   return (
     <VaultContext.Provider value={{
       vaultId: vaultState.vaultId,
+      vaultMethod: vaultState.vaultMethod,
       amount: vaultState.amount,
       error: vaultState.error,
       errorMessage: vaultState.errorMessage,
@@ -110,7 +158,8 @@ const VaultProvider = ({ children }) => {
       setMax: setMax,
       onClaim: handleClaim,
       onWithdraw: handleWithdraw,
-      onDeposit: handleDeposit
+      onDeposit: handleDeposit,
+      onSwitch: handleSwitch
     }}>
       {children}
     </VaultContext.Provider>

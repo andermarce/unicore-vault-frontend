@@ -50,7 +50,7 @@ export const LockModal = ({ onDismiss }) => {
           
           <Button
             onClick={handleClick}
-            disabled={error || !checked || !!+amount}
+            disabled={error || !checked || isNaN(amount) || amount === '0' || amount === ''}
             variant="contained" 
             color="secondary"
           >

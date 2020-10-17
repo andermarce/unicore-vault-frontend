@@ -171,6 +171,7 @@ export const vaultDeposit = async (vaultContract, vaultId, account, amount) => {
       .on('transactionHash', (tx) => tx.transactionHash)
     return result
   } catch (e) {
+    console.log(e)
     return '0'
   }
 }
@@ -189,10 +190,11 @@ export const vaultWithdraw = async (vaultContract, vaultId, account, amount) => 
 
 export const getStakedAmount = async (vaultContract, vaultId, account) => {
   try {
+    
     const result = await vaultContract.methods
       .userInfo(vaultId, account)
       .call()
-    return result
+    return result.amount
   } catch (e) {
     return '0'
   }
@@ -260,7 +262,6 @@ export const wrapUniV2 = async (wrappedContract, account, amount) => {
 
 export const approve = async (tokenContract, spenderAddress, account) => {
     try {
-      console.log(tokenContract, spenderAddress, account)
       const tx = tokenContract.methods
       .approve(spenderAddress, new BigNumber(2).pow(256).minus(1))
       .send({ from: account })

@@ -1,42 +1,39 @@
 {
-  "contractName": "IUniCore",
+  "contractName": "IWrapper",
   "abi": [
     {
       "inputs": [
         {
-          "internalType": "bool",
-          "name": "agreesToTermsOutlinedInLiquidityGenerationParticipationAgreement",
-          "type": "bool"
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
         }
       ],
-      "name": "USER_PledgeLiquidity",
-      "outputs": [],
-      "stateMutability": "payable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "USER_UNPledgeLiquidity",
+      "name": "wrapUNIv2",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
     },
     {
-      "inputs": [],
-      "name": "POOL_CreateLiquidity",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "USER_ClaimWrappedLiquidity",
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "spender",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "approve",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.6.6+commit.6c089d02\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"POOL_CreateLiquidity\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"USER_ClaimWrappedLiquidity\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bool\",\"name\":\"agreesToTermsOutlinedInLiquidityGenerationParticipationAgreement\",\"type\":\"bool\"}],\"name\":\"USER_PledgeLiquidity\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"USER_UNPledgeLiquidity\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/noahcoomer/source/unicore-vault/unicore-vault-contracts/contracts/UniCore_Testing.sol\":\"IUniCore\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/noahcoomer/source/unicore-vault/unicore-vault-contracts/contracts/UniCore_Testing.sol\":{\"keccak256\":\"0xee911c44e2c1039477a171838933f2e35ca5d2e3ccb9960a423ccbfbf1787326\",\"urls\":[\"bzz-raw://50b9c6c6b6c0828cfaffeff1c7fe14d5c875df45719b21427c5c822474ee876a\",\"dweb:/ipfs/QmNVGuqqMbnLYfwbtETU7J3ZWxqm7J6za2HobjyCwzTNoF\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.6.6+commit.6c089d02\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"spender\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"approve\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"wrapUNIv2\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/noahcoomer/source/unicore-vault/unicore-vault-contracts/contracts/UniCore_Testing.sol\":\"IWrapper\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/noahcoomer/source/unicore-vault/unicore-vault-contracts/contracts/UniCore_Testing.sol\":{\"keccak256\":\"0xee911c44e2c1039477a171838933f2e35ca5d2e3ccb9960a423ccbfbf1787326\",\"urls\":[\"bzz-raw://50b9c6c6b6c0828cfaffeff1c7fe14d5c875df45719b21427c5c822474ee876a\",\"dweb:/ipfs/QmNVGuqqMbnLYfwbtETU7J3ZWxqm7J6za2HobjyCwzTNoF\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "immutableReferences": {},
@@ -1648,7 +1645,7 @@
   },
   "networks": {},
   "schemaVersion": "3.3.0",
-  "updatedAt": "2020-10-17T00:36:45.763Z",
+  "updatedAt": "2020-10-17T00:36:46.062Z",
   "devdoc": {
     "methods": {}
   },

@@ -96,9 +96,20 @@ const LockerProvider = ({ children }) => {
 
   const handleLockEthereum = useCallback(async () => {
     const txHash = await userLockEthereum(uniCoreContract, account, formState.fullAmount, formState.checked)
+    resetState()
     return txHash
   }, [account, uniCoreContract, formState.fullAmount, formState.checked])
 
+  const resetState = () => {
+    setFormState({
+      ...formState,
+      amount: '',
+      fullAmount: new BigNumber(0),
+      checked: false,
+      error: false,
+      errorMessage: ''
+    })
+  }
 
   return (
     <LockerContext.Provider value={{

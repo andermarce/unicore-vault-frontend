@@ -3,32 +3,29 @@ import { useAllowance } from 'hooks/useAllowance'
 import { useApprove } from 'hooks/useApprove'
 import { Flex } from 'components'
 import { Button, Box } from '@material-ui/core'
-import { getVaultContract, getVaultAddress, getUniCoreContract } from 'UniCore'
+import { getVaultContract, getVaultAddress, getWrappedContract } from 'UniCore'
 import { useUniCore } from 'hooks/useUniCore'
 import { useVault } from 'hooks/useVault'
 
 export const VaultButtonRow = () => {
-  const { error, amount, onDeposit, onWithdraw } = useVault()
+  const { error, amount, onDeposit, onWithdraw, vaultMethod } = useVault()
 
   const uniCore = useUniCore()
-  const uniCoreContract = useMemo(() => {
-    return getUniCoreContract(uniCore)
+  const wrappedContract = useMemo(() => {
+    return getWrappedContract(uniCore)
   }, [uniCore])
   const vaultAddress = useMemo(() => {
     return getVaultAddress(uniCore)
   }, [uniCore])
-  const vaultContract = useMemo(() => {
-    return getVaultContract(uniCore)
-  }, [uniCore])
 
-  const allowance = useAllowance(uniCoreContract, vaultAddress)
-  const { onApproveVault } = useApprove(uniCoreContract)
+  const allowance = useAllowance(wrappedContract, vaultAddress)
+  const { onApproveVault } = useApprove(wrappedContract)
 
   return (
     <Box marginY={1}>
       {allowance.gt(0) ? (
-        <Flex>
-          <Box flex={1} paddingRight={1}>
+        <>
+          {vaultMethod === 'withdraw' ? (
             <Button
               disabled={error || isNaN(amount) || amount === '0' || amount === ''}
               onClick={onWithdraw}
@@ -38,8 +35,7 @@ export const VaultButtonRow = () => {
             >
               Withdraw
             </Button>
-          </Box>
-          <Box flex={1} paddingLeft={1}>
+          ) : (
             <Button
               disabled={error || isNaN(amount) || amount === '0' || amount === ''}
               onClick={onDeposit}
@@ -49,9 +45,8 @@ export const VaultButtonRow = () => {
             >
               Deposit
             </Button>
-          </Box>
-          
-        </Flex>
+          )}
+        </>
       ) : (
         <Button
           onClick={onApproveVault}

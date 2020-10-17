@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { Balance, Flex } from 'components'
 import { useTokenBalance } from 'hooks/useTokenBalance'
 import { useUniCore } from 'hooks/useUniCore'
-import { getUniCoreAddress } from 'UniCore'
+import { getUniCoreAddress, getWrappedAddress } from 'UniCore'
 import { getDisplayBalance } from 'utils'
 
 export const BalanceRow = () => {
@@ -13,7 +13,7 @@ export const BalanceRow = () => {
   }, [uniCore])
 
   const wrappedAddress = useMemo(() => {
-    return getUniCoreAddress(uniCore)
+    return getWrappedAddress(uniCore)
   }, [uniCore])
 
   const uniCoreBalance = useTokenBalance(uniCoreAddress)
@@ -26,7 +26,7 @@ export const BalanceRow = () => {
         value={getDisplayBalance(uniCoreBalance)}
       />
       <Balance
-        title="wUNIV2"
+        title="REACTOR"
         value={getDisplayBalance(wrappedBalance)}
       />
     </Flex>

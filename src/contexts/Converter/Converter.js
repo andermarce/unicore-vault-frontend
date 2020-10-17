@@ -6,6 +6,10 @@ import { getUniCoreLpAddress, getWrappedContract } from 'UniCore'
 import { wrapUniV2 } from 'UniCore/utils'
 import { useWallet } from 'use-wallet'
 
+BigNumber.config({ 
+  DECIMAL_PLACES: 18
+})
+
 export const ConverterContext = createContext({
   amount: '0',
   checked: false,
@@ -63,11 +67,13 @@ const ConverterProvider = ({ children }) => {
   }, [converter, tokenBalance, setConverter])
 
   const handleButton = useCallback((perc) => {
-    const wei = tokenBalance.times(perc/100)
+    const wei = new BigNumber(tokenBalance).multipliedBy(new BigNumber(perc).div(100))
+    const display = wei.div(new BigNumber(10).pow(18))
+    const safeValue = uniCore.web3.utils.toWei(display.toString())
     setConverter({
       ...converter,
-      fullAmount: wei,
-      amount: wei.div(new BigNumber(10).pow(18))
+      fullAmount: safeValue,
+      amount: display
     })
   }, [converter, tokenBalance, setConverter])
 
