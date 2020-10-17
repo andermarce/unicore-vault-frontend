@@ -38,6 +38,23 @@ export const ManualModal = ({ onDismiss }) => {
             - Audited contracts<br/>
             - Long-term vision<br/>
           </Box>
+          <br/><br/>
+          Social Media 
+          <Box marginLeft={2}>
+            - Telegram<br/>
+            - Discord<br/>
+            - Twitter<br/>
+            - Medium<br/>
+            - GitHub<br/>
+          </Box>
+          <br/><br/>
+          Contracts & Links
+          <Box marginLeft={2}>
+            - UniCore (UNICORE): Contract Uniswap<br/>
+            - Wrapped UniCore LP (REACTOR): Contract Uniswap<br/>
+            - UniCore LP (UNI-V2): Contract<br/>
+            - UniCore Vault: Contract<br/>
+          </Box>
         </DialogContentText>
         <DialogActions>
           <Button>Read More</Button>

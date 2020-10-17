@@ -11,7 +11,7 @@ export const LockButton = () => {
   return (
     <Box marginY={2}>
       <Button
-        disabled={contractStart + contributionPhase > Date.now()}
+        disabled={contractStart + contributionPhase < Date.now()}
         onClick={showLockModal}
         color="primary"
         variant="outlined"
