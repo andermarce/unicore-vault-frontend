@@ -51,7 +51,7 @@ const LockerProvider = ({ children }) => {
         fullAmount: amt,
         amount,
         error: true,
-        errorMessage: "Cannot lock more ethereum than current balance"
+        errorMessage: "Value exceeds balance"
       })
     } else if (totalLocked.plus(amt).gt(maxTotalCap)) { // if over the max cap
       setFormState({
