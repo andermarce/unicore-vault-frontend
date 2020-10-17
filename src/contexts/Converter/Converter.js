@@ -42,7 +42,7 @@ const ConverterProvider = ({ children }) => {
   const tokenBalance = useTokenBalance(lpAddress)
 
   const handleSetAmount = useCallback((amount) => {
-    const wei = new BigNumber(amount).times(new BigNumber(10).pow(18))
+    const wei = new BigNumber(amount).times(new BigNumber(10).pow(18)).decimalPlaces(0)
     const display =  uniCore.web3.utils.fromWei(wei.toString())
     const safeValue = uniCore.web3.utils.toWei(display)
     if (amount < 0) {
@@ -70,7 +70,7 @@ const ConverterProvider = ({ children }) => {
   }, [converter, tokenBalance, setConverter])
 
   const handleButton = useCallback((perc) => {
-    const wei = new BigNumber(tokenBalance).multipliedBy(new BigNumber(perc).div(100))
+    const wei = new BigNumber(tokenBalance).multipliedBy(new BigNumber(perc).div(100)).decimalPlaces(0)
     const display =  uniCore.web3.utils.fromWei(wei.toString())
     const safeValue = uniCore.web3.utils.toWei(display)
     setConverter({
@@ -81,10 +81,12 @@ const ConverterProvider = ({ children }) => {
   }, [converter, tokenBalance, setConverter])
 
   const setMax = useCallback(() => {
+    const display =  uniCore.web3.utils.fromWei(tokenBalance.toString())
+    const safeValue = uniCore.web3.utils.toWei(display)
     setConverter({
       ...converter,
-      fullAmount: tokenBalance,
-      amount: new BigNumber(tokenBalance).div(new BigNumber(10).pow(18))
+      fullAmount: safeValue,
+      amount: display
     })
   }, [converter, tokenBalance, setConverter])
 

@@ -55,7 +55,7 @@ const VaultProvider = ({ children }) => {
   const handleSetAmount = useCallback((amount) => {
     
     const balance = vaultState.vaultMethod === 'deposit' ? tokenBalance : stakedBalance
-    const wei = new BigNumber(amount).times(new BigNumber(10).pow(18))
+    const wei = new BigNumber(amount).times(new BigNumber(10).pow(18)).decimalPlaces(0)
     const display =  uniCore.web3.utils.fromWei(wei.toString())
     const safeValue = uniCore.web3.utils.toWei(display)
     if (amount < 0) {
@@ -96,10 +96,12 @@ const VaultProvider = ({ children }) => {
 
   const setMax = useCallback(() => {
     const balance = vaultState.vaultMethod === 'deposit' ? tokenBalance : stakedBalance
+    const display =  uniCore.web3.utils.fromWei(balance.toString())
+    const safeValue = uniCore.web3.utils.toWei(display)
     setVault({
       ...vaultState,
-      fullAmount: tokenBalance,
-      amount: new BigNumber(balance).div(new BigNumber(10).pow(18))
+      fullAmount: safeValue,
+      amount: display
     })
   }, [vaultState, tokenBalance, setVault])
 
