@@ -44,7 +44,12 @@ export const ConverterButton = () => {
       variant="contained" 
       color="secondary"
     >
-      {allowance.eq(0) ? "Approve Wrapping" : "Wrap UNICORE UNI-V2"}
+      {wrappingRatio.eq(0) ? "Wrapping not enabled yet" : (
+        <>
+          {allowance.eq(0) ? "Approve Wrapping" : "Wrap UNICORE UNI-V2"}
+        </>
+      )}
+      
     </Button>
   )
 }

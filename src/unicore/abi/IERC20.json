@@ -13462,7 +13462,7 @@
   },
   "networks": {},
   "schemaVersion": "3.3.0",
-  "updatedAt": "2020-10-17T18:14:13.044Z",
+  "updatedAt": "2020-10-18T17:21:02.248Z",
   "devdoc": {
     "methods": {
       "allowance(address,address)": {
