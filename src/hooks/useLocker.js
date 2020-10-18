@@ -8,6 +8,7 @@ export const useLocker = () => {
     error,
     errorMessage,
     setAmount,
+    onButton,
     setMax,
     setChecked,
     lockEthereum
@@ -18,6 +19,7 @@ export const useLocker = () => {
     checked,
     error,
     errorMessage,
+    onButton,
     setAmount,
     setMax,
     setChecked,

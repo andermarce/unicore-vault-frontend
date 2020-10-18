@@ -10,8 +10,8 @@ export const BottomBar = () => {
         <BottomBarLink url="https://github.com/unicore-vault">
           GitHub
         </BottomBarLink>
-        <BottomBarLink url="https://medium.com/@unicore">
-          Medium
+        <BottomBarLink url="https://t.me/uvaultfinance">
+          Telegram
         </BottomBarLink>
         <BottomBarLink url="https://discord.gg/NCYueeS">
           Discord

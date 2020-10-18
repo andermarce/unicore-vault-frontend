@@ -11,6 +11,7 @@ import { useReactor } from 'hooks/useReactor'
 export const LockerContext = createContext({
   formState: {},
   setAmount: () => {},
+  onButton: () => {},
   setMax: () => {},
   setChecked: () => {},
   lockEthereum: () => {}
@@ -80,13 +81,28 @@ const LockerProvider = ({ children }) => {
     }
   }, [formState, setFormState, balance, maxIndividualCap, maxTotalCap])
 
-  const handleSetMax = useCallback(() => {
+  const handleButton = useCallback((amount) => {
+    let amt = new BigNumber(amount).times(new BigNumber(10).pow(18))
+    const bal = new BigNumber(balance)
+    if (amt.gt(bal)) {
+      amt = bal
+    }
+    if (totalLocked.plus(amt).gt(maxTotalCap)) {
+      amt = maxTotalCap.minus(totalLocked)
+    }
+    if (addressLocked.plus(amt).gt(maxIndividualCap)) {
+      amt = maxIndividualCap.minus(addressLocked)
+    }
     setFormState({
       ...formState,
-      fullAmount: balance,
-      amount: new BigNumber(balance).div(new BigNumber(10).pow(18))
+      fullAmount: amt,
+      amount: new BigNumber(amt).div(new BigNumber(10).pow(18))
     })
-  }, [formState, balance, setFormState])
+  }, [balance, addressLocked, totalLocked, maxIndividualCap, maxTotalCap, formState, setFormState])
+
+  const handleSetMax = useCallback(() => {
+    handleButton(balance)
+  }, [handleButton, balance])
 
   const handleSetChecked = useCallback(() => {
     setFormState({
@@ -119,6 +135,7 @@ const LockerProvider = ({ children }) => {
       error: formState.error,
       errorMessage: formState.errorMessage,
       setAmount: handleSetAmount,
+      onButton: handleButton,
       setMax: handleSetMax,
       setChecked: handleSetChecked,
       lockEthereum: handleLockEthereum

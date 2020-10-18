@@ -12,7 +12,7 @@ export const LockCountdown = () => {
   return (
     <>
       <Box marginY={1}>
-        <Typography variant="h4" color="textPrimary">Reactor Meltdown</Typography>
+        <Typography variant="h4" color="textPrimary">Reactor Fusion</Typography>
         <Typography variant="h5" color="secondary">In Progress</Typography>
       </Box>
       

@@ -90,16 +90,7 @@ const ReactorProvider = ({ children }) => {
     if (ethereum && uniCore) {
       fetchData()
     }
-  }, [ethereum, uniCore, fetchData])
-
-  useEffect(() => {
-    if (ethereum && uniCore) {
-      setReactor({
-        ...reactorState,
-        phase: getPhase(reactorState.contractEnd, reactorState.stakingPhase)
-      })
-    }
-  }, [block, ethereum, uniCore])
+  }, [block, ethereum, uniCore, fetchData])
 
   return (
     <ReactorContext.Provider value={reactorState}>
