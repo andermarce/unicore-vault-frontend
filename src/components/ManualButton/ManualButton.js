@@ -11,6 +11,7 @@ export const ManualButton = () => {
     <Button
       size="large"
       color="primary"
+      //variant="outlined"
       onClick={showManualModal}
     >
       Reactor Manual

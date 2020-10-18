@@ -48,7 +48,6 @@ export const ManualModal = ({ onDismiss }) => {
             - Deflationary supply (UNICORE)<br/>
             - Improved Governance<br/>
             - Audited contracts<br/>
-            - Long-term vision<br/>
           </Typography>
         </Box>
         <Box marginY={2}>
@@ -86,7 +85,7 @@ export const ManualModal = ({ onDismiss }) => {
           </Box>
         
         <DialogActions>
-          <Button href="https://medium.com/@unicore" target="blank" rel="noopener">Read More</Button>
+          <Button href="https://medium.com/@unicore/meet-unicore-uvault-finance-a6e73d51e989" target="blank" rel="noopener">Read More</Button>
           <Button onClick={onDismiss}>Close</Button>
         </DialogActions>
       </DialogContent>

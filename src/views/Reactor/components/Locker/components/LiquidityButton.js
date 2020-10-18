@@ -25,7 +25,7 @@ export const LiquidityButton = () => {
       color="primary"
       variant="contained"
     >
-      INITIATE MELTDOWN
+      INITIATE FUSION
     </Button>
   )
 }

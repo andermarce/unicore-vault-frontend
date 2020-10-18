@@ -1,6 +1,6 @@
 import React from 'react'
-import { Typography } from '@material-ui/core'
-import { ManualButton, ViewWrapper } from 'components'
+import { Box, Typography } from '@material-ui/core'
+import { Flex, ManualButton, ViewWrapper } from 'components'
 
 export const Main = () => {
   return (
@@ -9,7 +9,9 @@ export const Main = () => {
         AWAITING LAUNCH 
         INSTRUCTIONS
       </Typography>
-      <ManualButton />
+      <Box marginTop={4}>
+        <ManualButton />
+      </Box>
     </ViewWrapper>
   )
 }
