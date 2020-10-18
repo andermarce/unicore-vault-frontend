@@ -5,9 +5,11 @@ import { useUniCore } from 'hooks/useUniCore'
 import { getUniCoreLpContract, getWrappedAddress } from 'UniCore'
 import { useAllowance } from 'hooks/useAllowance'
 import { useApprove } from 'hooks/useApprove'
+import { useWrappingRatio } from 'hooks/useWrappingRatio'
 
 export const ConverterButton = () => {
   const { amount, checked, error, onDeposit } = useConverter()
+  const wrappingRatio = useWrappingRatio()
   const uniCore = useUniCore()
   const wrappedAddress = useMemo(() => {
     return getWrappedAddress(uniCore)
@@ -21,6 +23,9 @@ export const ConverterButton = () => {
   const { onApproveWrapped } = useApprove(uniV2Contract)
 
   const isDisabled = () => {
+    if (wrappingRatio.eq(0)) {
+      return true
+    }
     if (allowance.gt(0)) {
       if (error || !checked || isNaN(amount) || amount == 0) {
         return true

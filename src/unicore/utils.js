@@ -257,6 +257,17 @@ export const wrapUniV2 = async (wrappedContract, account, amount) => {
   }
 }
 
+export const getWrappingRatio = async (wrappedContract) => {
+  try {
+    const result = await wrappedContract.methods
+      .viewPublicWrappingRatio()
+      .call()
+    return result
+  } catch (e) {
+    return '0'
+  }
+}
+
 // Approval
 
 export const approve = async (tokenContract, spenderAddress, account) => {
