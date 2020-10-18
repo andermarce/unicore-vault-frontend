@@ -1,9 +1,9 @@
 const Addresses = {
   1: {
-    uniCore: '',
-    uniCoreLp: '',
-    uniCoreWrapped: '',
-    uniCoreVault: '',
+    uniCore: '0x5506861bbb104Baa8d8575e88E22084627B192D8',
+    uniCoreLp: '0x45A967C12ED5bDC06e240f007206B359f91877FD',
+    uniCoreWrapped: '0xd5058BDc884e2F63607Ef71ADaBf1a00269ee325',
+    uniCoreVault: '0x6F31ECD8110bcBc679AEfb74c7608241D1B78949',
     uniswapFactory: '0xc0a47dFe034B400B47bDaD5FecDa2621de6c4d95',
     uniswapFactoryV2: '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f',
     weth: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',

@@ -55,7 +55,7 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <NetworkProvider network={4}>
+      <NetworkProvider network={1}>
         <WalletApp />
       </NetworkProvider>
     </ThemeProvider>
